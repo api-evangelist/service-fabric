@@ -1,0 +1,266 @@
+name: Service Fabric Vocabulary
+description: >-
+  Domain vocabulary for Azure Service Fabric, the open-source distributed systems
+  platform for building scalable and reliable microservices and containerized
+  applications.
+version: "9.1"
+created: '2026-05-02'
+modified: '2026-05-02'
+
+terms:
+  # Core Platform
+  - term: Cluster
+    definition: >-
+      A network-connected set of virtual or physical machines (nodes) into which
+      microservices are deployed and managed. Service Fabric clusters have a control
+      plane (cluster manager) and can span availability zones for high availability.
+    related:
+      - Node
+      - Cluster Manager
+
+  - term: Node
+    definition: >-
+      A machine (physical or virtual) that is part of a Service Fabric cluster.
+      Nodes are assigned a node type and can host many application replicas. Seed
+      nodes participate in cluster quorum.
+    related:
+      - Cluster
+      - Node Type
+      - Seed Node
+
+  - term: Node Type
+    definition: >-
+      A named group of nodes in a cluster sharing the same VM SKU, OS, and port
+      configurations. A cluster can have multiple node types. The primary node type
+      hosts system services.
+    related:
+      - Node
+
+  - term: Seed Node
+    definition: >-
+      A special cluster node that participates in leader election and forms the
+      quorum for cluster management decisions. Seed nodes must be up for the
+      cluster to be operational.
+    related:
+      - Node
+      - Quorum
+
+  # Application Model
+  - term: Application
+    definition: >-
+      A collection of constituent services that together form a composite application
+      deployed to a Service Fabric cluster. Applications are instances of application
+      types and are identified by a fabric:/ URI.
+    related:
+      - Application Type
+      - Service
+
+  - term: Application Type
+    definition: >-
+      A named and versioned collection of service type definitions. An application
+      type is defined in an ApplicationManifest.xml and must be provisioned to the
+      cluster before instances can be created.
+    related:
+      - Application
+      - Service Type
+
+  - term: Service
+    definition: >-
+      A deployable, versioned component of an application. Services implement
+      business logic and are either stateless or stateful. Service Fabric manages
+      service placement, replication, and health.
+    related:
+      - Service Type
+      - Stateless Service
+      - Stateful Service
+
+  - term: Service Type
+    definition: >-
+      The typed definition of a service as declared in a ServiceManifest.xml.
+      Defines the code, configuration, and data packages that constitute a service.
+    related:
+      - Service
+      - Application Type
+
+  - term: Stateless Service
+    definition: >-
+      A Service Fabric service where each instance is identical and no state is
+      maintained across requests. Multiple instances can be deployed for load
+      balancing. State is stored externally (database, cache).
+    related:
+      - Stateful Service
+      - Instance
+
+  - term: Stateful Service
+    definition: >-
+      A Service Fabric service that maintains durable state using Reliable
+      Collections or Reliable Actors. State is replicated across multiple replicas
+      for high availability.
+    related:
+      - Stateless Service
+      - Reliable Collections
+      - Primary Replica
+
+  # Partition and Replication
+  - term: Partition
+    definition: >-
+      A subset of a service's total state managed by one set of replicas. Partitioning
+      enables horizontal scaling — different nodes manage different partitions.
+      Partitioning schemes: Singleton, UniformInt64Range, Named.
+    related:
+      - Replica
+      - Service
+
+  - term: Replica
+    definition: >-
+      An instance of a service partition running on a node. For stateful services,
+      one replica is the Primary and others are Active Secondaries. Replicas are
+      managed by the Failover Manager.
+    related:
+      - Partition
+      - Primary Replica
+      - Secondary Replica
+
+  - term: Primary Replica
+    definition: >-
+      The replica responsible for processing read and write requests for a stateful
+      service partition. If the primary fails, a secondary is promoted automatically.
+    related:
+      - Replica
+      - Secondary Replica
+
+  # Programming Models
+  - term: Reliable Collections
+    definition: >-
+      Distributed, replicated data structures (Reliable Dictionary, Reliable Queue)
+      provided by the Service Fabric SDK. They behave like standard .NET collections
+      but are replicated across replicas for durability without an external database.
+    related:
+      - Stateful Service
+      - Reliable Services
+
+  - term: Reliable Actors
+    definition: >-
+      An actor-model programming framework for Service Fabric. Each actor is an
+      isolated, single-threaded object with its own state. Actors communicate via
+      asynchronous messages and are automatically placed on cluster nodes.
+    related:
+      - Stateful Service
+
+  - term: Reliable Services
+    definition: >-
+      The base programming model for building both stateless and stateful services
+      in Service Fabric. Provides the RunAsync lifecycle, communication listeners,
+      and Reliable Collections access.
+    related:
+      - Stateless Service
+      - Stateful Service
+
+  # Health Model
+  - term: Health State
+    definition: >-
+      A Service Fabric entity's health status as computed by the Health Manager.
+      Values: Ok (healthy), Warning (degraded but functional), Error (unhealthy),
+      Unknown (health unknown), Invalid.
+    values:
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      - Invalid
+    related:
+      - Health Report
+      - Health Policy
+
+  - term: Health Report
+    definition: >-
+      A health evaluation submitted by a watchdog, service, or operator describing
+      the health of a cluster entity (node, application, service, partition, replica).
+      Reports include source, property, health state, description, and TTL.
+    related:
+      - Health State
+
+  # Deployment and Upgrade
+  - term: Rolling Upgrade
+    definition: >-
+      Service Fabric's default upgrade mode that updates services incrementally
+      across upgrade domains. Monitors health at each step and can automatically
+      roll back if health degradation is detected.
+    related:
+      - Upgrade Domain
+      - Application
+
+  - term: Upgrade Domain
+    definition: >-
+      A group of nodes that are upgraded together during a rolling upgrade. Service
+      Fabric pauses and evaluates health between upgrade domains. Typically aligned
+      with fault domains.
+    related:
+      - Rolling Upgrade
+      - Fault Domain
+
+  - term: Fault Domain
+    definition: >-
+      A set of nodes that share a common point of failure (same rack, power unit,
+      or network switch). Service Fabric distributes replicas across fault domains
+      for high availability.
+    related:
+      - Upgrade Domain
+
+  # Communication
+  - term: Naming Service
+    definition: >-
+      A Service Fabric system service that resolves service names to endpoint
+      addresses. Applications use the Naming Service to discover service endpoints
+      before making calls.
+    related:
+      - Service Fabric DNS Service
+
+  - term: Service Fabric DNS Service
+    definition: >-
+      An optional cluster service that assigns DNS names to Service Fabric services.
+      Enables services to be resolved by DNS name (e.g., myservice.myapp) rather
+      than fabric:/ URIs.
+    related:
+      - Naming Service
+
+categories:
+  - name: Platform
+    terms:
+      - Cluster
+      - Node
+      - Node Type
+      - Seed Node
+  - name: Application Model
+    terms:
+      - Application
+      - Application Type
+      - Service
+      - Service Type
+  - name: Service Types
+    terms:
+      - Stateless Service
+      - Stateful Service
+  - name: Replication
+    terms:
+      - Partition
+      - Replica
+      - Primary Replica
+  - name: Programming Models
+    terms:
+      - Reliable Collections
+      - Reliable Actors
+      - Reliable Services
+  - name: Health
+    terms:
+      - Health State
+      - Health Report
+  - name: Deployment
+    terms:
+      - Rolling Upgrade
+      - Upgrade Domain
+      - Fault Domain
+  - name: Communication
+    terms:
+      - Naming Service
+      - Service Fabric DNS Service

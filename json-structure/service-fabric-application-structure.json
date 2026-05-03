@@ -1,0 +1,62 @@
+{
+  "title": "Service Fabric Application Structure",
+  "description": "Field-by-field structural documentation for a Service Fabric Application resource",
+  "version": "9.1",
+  "source": "https://docs.microsoft.com/en-us/rest/api/servicefabric/applications/get-application-info",
+  "fields": [
+    {
+      "name": "Id",
+      "type": "string",
+      "description": "Application identifier without the fabric:/ URI scheme"
+    },
+    {
+      "name": "Name",
+      "type": "string",
+      "required": true,
+      "pattern": "^fabric:/",
+      "description": "Full application URI using the fabric:/ scheme, e.g. fabric:/MyApp"
+    },
+    {
+      "name": "TypeName",
+      "type": "string",
+      "required": true,
+      "description": "Application type name as registered in the cluster image store. Must match the ApplicationTypeName in ApplicationManifest.xml."
+    },
+    {
+      "name": "TypeVersion",
+      "type": "string",
+      "required": true,
+      "description": "Application type version string. Must match a provisioned version in the cluster."
+    },
+    {
+      "name": "Status",
+      "type": "string",
+      "enum": ["Invalid", "Ready", "Upgrading", "Creating", "Deleting", "Failed"],
+      "description": "Current application lifecycle status. Ready means the application is deployed and healthy."
+    },
+    {
+      "name": "Parameters",
+      "type": "array",
+      "description": "List of application parameter overrides. Parameters defined in ApplicationManifest.xml can be overridden at deploy time.",
+      "items": {
+        "type": "object",
+        "fields": [
+          {"name": "Key", "type": "string", "required": true, "description": "Parameter name"},
+          {"name": "Value", "type": "string", "required": true, "description": "Parameter value override"}
+        ]
+      }
+    },
+    {
+      "name": "HealthState",
+      "type": "string",
+      "enum": ["Invalid", "Ok", "Warning", "Error", "Unknown"],
+      "description": "Aggregated health state rolled up from all services and deployed service packages"
+    },
+    {
+      "name": "ApplicationDefinitionKind",
+      "type": "string",
+      "enum": ["Invalid", "ServiceFabricApplicationDescription", "Compose"],
+      "description": "Whether the application was defined via SF application manifest or Docker Compose file"
+    }
+  ]
+}

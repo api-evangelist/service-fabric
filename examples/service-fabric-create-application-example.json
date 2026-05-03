@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "http://mycluster.westus.cloudapp.azure.com:19080/Applications/$/Create?api-version=9.1",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "Name": "fabric:/MyVotingApp",
+      "TypeName": "VotingType",
+      "TypeVersion": "1.0.0",
+      "ParameterList": [
+        {
+          "Key": "VotingData_MinReplicaSetSize",
+          "Value": "2"
+        },
+        {
+          "Key": "VotingData_TargetReplicaSetSize",
+          "Value": "3"
+        },
+        {
+          "Key": "VotingWeb_InstanceCount",
+          "Value": "-1"
+        }
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": null
+  },
+  "notes": "Returns 201 Created with empty body on success. The application status will be 'Creating' then transition to 'Ready'."
+}

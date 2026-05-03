@@ -1,0 +1,532 @@
+openapi: 3.1.0
+info:
+  title: Service Fabric Cluster Management API
+  description: >-
+    The Service Fabric REST API enables cluster management, application lifecycle,
+    service management, and health monitoring for Azure Service Fabric clusters.
+    The API is served by the HTTP gateway running on each cluster node.
+  version: "9.1"
+  contact:
+    name: Azure Service Fabric Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/
+  license:
+    name: MIT
+    url: https://github.com/microsoft/service-fabric/blob/master/LICENSE
+servers:
+  - url: http://{cluster_endpoint}:19080
+    description: Service Fabric HTTP Gateway
+    variables:
+      cluster_endpoint:
+        description: Service Fabric cluster endpoint (FQDN or IP)
+        default: localhost
+
+tags:
+  - name: Cluster
+    description: Cluster-level operations and configuration
+  - name: Nodes
+    description: Cluster node management
+  - name: Applications
+    description: Application deployment and lifecycle
+  - name: Services
+    description: Service management within applications
+  - name: Partitions
+    description: Partition and replica management
+  - name: Health
+    description: Health state queries and reporting
+
+paths:
+  /$/GetClusterHealth:
+    get:
+      operationId: getClusterHealth
+      summary: Get Cluster Health
+      description: Returns the health state of the Service Fabric cluster including nodes, applications, and system services.
+      tags:
+        - Health
+        - Cluster
+      parameters:
+        - name: api-version
+          in: query
+          required: true
+          schema:
+            type: string
+            default: "9.1"
+          description: Service Fabric API version
+        - name: NodesHealthStateFilter
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: "Health state filter for nodes (0=Default, 1=Ok, 2=Warning, 4=Error, 65535=All)"
+        - name: ApplicationsHealthStateFilter
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: "Health state filter for applications"
+      responses:
+        '200':
+          description: Cluster health state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterHealth'
+        '400':
+          description: Invalid parameters
+        '500':
+          description: Internal cluster error
+
+  /Nodes:
+    get:
+      operationId: getNodeInfoList
+      summary: Get Node Info List
+      description: Returns the list of nodes in the Service Fabric cluster.
+      tags:
+        - Nodes
+      parameters:
+        - name: api-version
+          in: query
+          required: true
+          schema:
+            type: string
+            default: "9.1"
+        - name: ContinuationToken
+          in: query
+          schema:
+            type: string
+          description: Continuation token for pagination
+        - name: NodeStatusFilter
+          in: query
+          schema:
+            type: string
+            enum: [default, all, up, down, enabling, disabling, disabled, unknown, removed]
+          description: Filter nodes by node status
+        - name: MaxResults
+          in: query
+          schema:
+            type: integer
+          description: Maximum results to return
+      responses:
+        '200':
+          description: List of cluster nodes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedNodeInfoList'
+        '400':
+          description: Invalid parameters
+
+  /Nodes/{nodeName}:
+    get:
+      operationId: getNodeInfo
+      summary: Get Node Info
+      description: Returns information about a specific node in the Service Fabric cluster.
+      tags:
+        - Nodes
+      parameters:
+        - $ref: '#/components/parameters/NodeName'
+        - $ref: '#/components/parameters/ApiVersion'
+      responses:
+        '200':
+          description: Node information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfo'
+        '404':
+          description: Node not found
+
+  /Applications:
+    get:
+      operationId: getApplicationInfoList
+      summary: Get Application Info List
+      description: Returns the list of applications created in the Service Fabric cluster.
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApiVersion'
+        - name: ApplicationTypeName
+          in: query
+          schema:
+            type: string
+          description: Filter by application type name
+        - name: ContinuationToken
+          in: query
+          schema:
+            type: string
+        - name: MaxResults
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of applications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedApplicationInfoList'
+
+  /Applications/{applicationId}:
+    get:
+      operationId: getApplicationInfo
+      summary: Get Application Info
+      description: Returns information about a specific Service Fabric application.
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApplicationId'
+        - $ref: '#/components/parameters/ApiVersion'
+      responses:
+        '200':
+          description: Application information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationInfo'
+        '404':
+          description: Application not found
+
+  /Applications/$/Create:
+    post:
+      operationId: createApplication
+      summary: Create Application
+      description: Creates a Service Fabric application using the specified application description.
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApiVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationDescription'
+      responses:
+        '201':
+          description: Application created
+        '400':
+          description: Invalid application description
+        '409':
+          description: Application already exists
+
+  /Applications/{applicationId}/$/Delete:
+    post:
+      operationId: deleteApplication
+      summary: Delete Application
+      description: Deletes an existing Service Fabric application. An application must be created before it can be deleted.
+      tags:
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApplicationId'
+        - $ref: '#/components/parameters/ApiVersion'
+        - name: ForceRemove
+          in: query
+          schema:
+            type: boolean
+          description: Force remove the application without graceful shutdown
+      responses:
+        '200':
+          description: Application deletion initiated
+        '404':
+          description: Application not found
+
+  /Applications/{applicationId}/$/GetHealth:
+    get:
+      operationId: getApplicationHealth
+      summary: Get Application Health
+      description: Returns the health of the specified Service Fabric application.
+      tags:
+        - Health
+        - Applications
+      parameters:
+        - $ref: '#/components/parameters/ApplicationId'
+        - $ref: '#/components/parameters/ApiVersion'
+        - name: ServicesHealthStateFilter
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Application health state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationHealth'
+        '404':
+          description: Application not found
+
+  /Applications/{applicationId}/$/GetServices:
+    get:
+      operationId: getServiceInfoList
+      summary: Get Service Info List
+      description: Returns services in the specified Service Fabric application.
+      tags:
+        - Services
+      parameters:
+        - $ref: '#/components/parameters/ApplicationId'
+        - $ref: '#/components/parameters/ApiVersion'
+        - name: ServiceTypeName
+          in: query
+          schema:
+            type: string
+          description: Filter by service type name
+        - name: ContinuationToken
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedServiceInfoList'
+        '404':
+          description: Application not found
+
+components:
+  parameters:
+    ApiVersion:
+      name: api-version
+      in: query
+      required: true
+      schema:
+        type: string
+        default: "9.1"
+      description: Service Fabric API version
+    NodeName:
+      name: nodeName
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Service Fabric node name
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
+
+  schemas:
+    ClusterHealth:
+      type: object
+      properties:
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        NodeHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeHealthState'
+        ApplicationHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationHealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+
+    HealthState:
+      type: string
+      enum: [Invalid, Ok, Warning, Error, Unknown]
+      description: Service Fabric health state
+
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+
+    ApplicationHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+
+    HealthEvent:
+      type: object
+      properties:
+        SourceId:
+          type: string
+          description: Source reporting the health event
+        Property:
+          type: string
+          description: Property being reported on
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        Description:
+          type: string
+        TimeToLiveInMilliSeconds:
+          type: string
+          description: Duration in ISO 8601 format
+        SequenceNumber:
+          type: string
+        IsExpired:
+          type: boolean
+        SourceUtcTimestamp:
+          type: string
+          format: date-time
+        LastModifiedUtcTimestamp:
+          type: string
+          format: date-time
+
+    NodeInfo:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        IpAddressOrFQDN:
+          type: string
+          description: IP address or FQDN of the node
+        Type:
+          type: string
+          description: Node type name
+        NodeStatus:
+          type: string
+          enum: [Invalid, Up, Down, Enabling, Disabling, Disabled, Unknown, Removed]
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        IsSeedNode:
+          type: boolean
+          description: Whether this is a seed node
+        UpgradeProgressDetails:
+          type: object
+        NodeUpTimeInSeconds:
+          type: string
+        StartedTimestamp:
+          type: string
+          format: date-time
+
+    PagedNodeInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+          description: Token for fetching the next page of results
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeInfo'
+
+    ApplicationInfo:
+      type: object
+      properties:
+        Id:
+          type: string
+          description: Application ID
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        Status:
+          type: string
+          enum: [Invalid, Ready, Upgrading, Creating, Deleting, Failed]
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+
+    PagedApplicationInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationInfo'
+
+    ApplicationDescription:
+      type: object
+      required:
+        - Name
+        - TypeName
+        - TypeVersion
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Registered application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        ParameterList:
+          type: array
+          items:
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+          description: Override parameters for the application manifest
+
+    ApplicationHealth:
+      type: object
+      properties:
+        Name:
+          type: string
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceHealthStates:
+          type: array
+          items:
+            type: object
+            properties:
+              ServiceName:
+                type: string
+              AggregatedHealthState:
+                $ref: '#/components/schemas/HealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+
+    ServiceInfo:
+      type: object
+      properties:
+        Id:
+          type: string
+        ServiceKind:
+          type: string
+          enum: [Invalid, Stateless, Stateful]
+        Name:
+          type: string
+        TypeName:
+          type: string
+        ManifestVersion:
+          type: string
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceStatus:
+          type: string
+          enum: [Unknown, Active, Upgrading, Deleting, Creating, Failed]
+        IsServiceGroup:
+          type: boolean
+
+    PagedServiceInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInfo'

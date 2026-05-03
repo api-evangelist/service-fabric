@@ -1,0 +1,42 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "http://mycluster.westus.cloudapp.azure.com:19080/$/GetClusterHealth?api-version=9.1",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "AggregatedHealthState": "Ok",
+      "NodeHealthStates": [
+        {
+          "Name": "_nt0_0",
+          "AggregatedHealthState": "Ok"
+        },
+        {
+          "Name": "_nt0_1",
+          "AggregatedHealthState": "Ok"
+        },
+        {
+          "Name": "_nt0_2",
+          "AggregatedHealthState": "Ok"
+        }
+      ],
+      "ApplicationHealthStates": [
+        {
+          "Name": "fabric:/System",
+          "AggregatedHealthState": "Ok"
+        },
+        {
+          "Name": "fabric:/MyVotingApp",
+          "AggregatedHealthState": "Ok"
+        }
+      ],
+      "HealthEvents": [],
+      "UnhealthyEvaluations": [],
+      "ClusterUpgradeHealthPolicy": null
+    }
+  }
+}

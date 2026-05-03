@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/service-fabric/schemas/application",
+  "title": "Service Fabric Application",
+  "description": "A Service Fabric application — a collection of constituent services that together form a composite application deployed to a Service Fabric cluster",
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "string",
+      "description": "Application ID without the fabric:/ scheme prefix"
+    },
+    "Name": {
+      "type": "string",
+      "description": "Application URI in fabric:/ scheme (e.g., fabric:/MyApp)",
+      "pattern": "^fabric:/"
+    },
+    "TypeName": {
+      "type": "string",
+      "description": "Application type name as registered in the cluster image store"
+    },
+    "TypeVersion": {
+      "type": "string",
+      "description": "Application type version string"
+    },
+    "Status": {
+      "type": "string",
+      "enum": ["Invalid", "Ready", "Upgrading", "Creating", "Deleting", "Failed"],
+      "description": "Current application lifecycle status"
+    },
+    "Parameters": {
+      "type": "array",
+      "description": "Override parameter values for the application manifest",
+      "items": {
+        "type": "object",
+        "properties": {
+          "Key": {"type": "string"},
+          "Value": {"type": "string"}
+        },
+        "required": ["Key", "Value"]
+      }
+    },
+    "HealthState": {
+      "type": "string",
+      "enum": ["Invalid", "Ok", "Warning", "Error", "Unknown"],
+      "description": "Aggregated health state of the application"
+    },
+    "ApplicationDefinitionKind": {
+      "type": "string",
+      "enum": ["Invalid", "ServiceFabricApplicationDescription", "Compose"],
+      "description": "How the application was defined — native SF manifest or Docker Compose"
+    }
+  },
+  "required": ["Name", "TypeName", "TypeVersion"]
+}

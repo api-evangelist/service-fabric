@@ -1,0 +1,48 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "sf": "https://api-evangelist.github.io/service-fabric/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Application": "schema:SoftwareApplication",
+    "Service": "schema:Service",
+    "Node": "sf:ClusterNode",
+    "Cluster": "sf:ServiceFabricCluster",
+    "Partition": "sf:ServicePartition",
+    "Replica": "sf:ServiceReplica",
+
+    "Name": "schema:name",
+    "TypeName": "sf:typeName",
+    "TypeVersion": "schema:version",
+    "Status": "sf:lifecycleStatus",
+    "HealthState": "sf:healthState",
+
+    "Id": "@id",
+    "IpAddressOrFQDN": "schema:serverAddress",
+    "NodeStatus": "sf:nodeStatus",
+    "IsSeedNode": "sf:isSeedNode",
+
+    "ServiceKind": "sf:serviceKind",
+    "ServiceStatus": "sf:serviceStatus",
+
+    "AggregatedHealthState": "sf:aggregatedHealthState",
+    "HealthEvents": "sf:healthEvents",
+    "Description": "schema:description",
+
+    "Parameters": "sf:applicationParameters",
+
+    "StartedTimestamp": {
+      "@id": "schema:startDate",
+      "@type": "xsd:dateTime"
+    },
+    "LastModifiedUtcTimestamp": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "SourceUtcTimestamp": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    }
+  }
+}
