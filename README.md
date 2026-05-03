@@ -2,7 +2,7 @@
 
 **URL:** [https://raw.githubusercontent.com/api-evangelist/service-fabric/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/service-fabric/refs/heads/main/apis.yml)
 
-Azure Service Fabric is an open-source distributed systems platform for packaging, deploying, and managing scalable and reliable microservices and containers. Service Fabric powers many Microsoft Azure core services including Azure SQL Database, Azure Cosmos DB, and Skype for Business. It provides a programming model for stateful and stateless microservices using Reliable Collections and Reliable Actors.
+Azure Service Fabric is an open-source distributed systems platform for packaging, deploying, and managing scalable and reliable microservices and containers. Service Fabric powers many Microsoft Azure core services including Azure SQL Database, Azure Cosmos DB, Skype for Business, and Cortana. It provides a programming model for stateful and stateless microservices using Reliable Collections, Reliable Actors, and the Reliable Services framework.
 
 ## Timestamps
 
@@ -24,10 +24,14 @@ Distributed Systems, Cluster Management, Application Lifecycle, Health Monitorin
 
 #### Properties
 
-- [Documentation](https://docs.microsoft.com/en-us/azure/service-fabric/)
+- [Documentation](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model)
 - [REST API Reference](https://docs.microsoft.com/en-us/rest/api/servicefabric/)
 - [GitHub](https://github.com/microsoft/service-fabric)
 - [OpenAPI](openapi/service-fabric-cluster-openapi.yml)
+- [JSON Schema](json-schema/service-fabric-application-schema.json)
+- [JSON Structure](json-structure/service-fabric-application-structure.json)
+- [Spectral Rules](rules/service-fabric-rules.yml)
+- [Capabilities](capabilities/cluster-management.yaml)
 
 ---
 
@@ -44,8 +48,8 @@ SDK, .NET, Java, Microservices, Reliable Collections
 #### Properties
 
 - [Documentation](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started)
-- [NuGet](https://www.nuget.org/packages/Microsoft.ServiceFabric/)
-- [Maven](https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors)
+- [NuGet Package](https://www.nuget.org/packages/Microsoft.ServiceFabric/)
+- [Maven Package](https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors)
 
 ---
 
@@ -64,7 +68,7 @@ SDK, .NET, Java, Microservices, Reliable Collections
 
 | File | Description |
 |------|-------------|
-| [service-fabric-cluster-openapi.yml](openapi/service-fabric-cluster-openapi.yml) | Service Fabric REST API v9.1 — cluster health, nodes, applications, services |
+| [service-fabric-cluster-openapi.yml](openapi/service-fabric-cluster-openapi.yml) | Service Fabric REST API v9.1 — cluster health, node management, application lifecycle, and service management |
 
 ### JSON Schemas
 
@@ -88,27 +92,27 @@ SDK, .NET, Java, Microservices, Reliable Collections
 
 | File | Description |
 |------|-------------|
-| [service-fabric-create-application-example.json](examples/service-fabric-create-application-example.json) | Create a Service Fabric application |
-| [service-fabric-get-cluster-health-example.json](examples/service-fabric-get-cluster-health-example.json) | Get cluster health state |
+| [service-fabric-create-application-example.json](examples/service-fabric-create-application-example.json) | Example: Create a Service Fabric application |
+| [service-fabric-get-cluster-health-example.json](examples/service-fabric-get-cluster-health-example.json) | Example: Get cluster health state |
 
 ### Rules
 
 | File | Description |
 |------|-------------|
-| [service-fabric-rules.yml](rules/service-fabric-rules.yml) | Spectral ruleset enforcing Service Fabric API conventions |
+| [service-fabric-rules.yml](rules/service-fabric-rules.yml) | Spectral ruleset enforcing Service Fabric API conventions (operationId, summary, api-version, tags, success responses) |
 
 ### Capabilities
 
 | File | Description |
 |------|-------------|
-| [capabilities/cluster-management.yaml](capabilities/cluster-management.yaml) | Unified cluster management workflow — nodes, applications, services, health |
-| [capabilities/shared/service-fabric-api.yaml](capabilities/shared/service-fabric-api.yaml) | Per-API Naftiko consumed definition for the Service Fabric REST API |
+| [capabilities/cluster-management.yaml](capabilities/cluster-management.yaml) | Workflow capability for cluster management — nodes, applications, services, and health monitoring |
+| [capabilities/shared/service-fabric-api.yaml](capabilities/shared/service-fabric-api.yaml) | Shared per-API Naftiko consumed definition for the Service Fabric REST API |
 
 ### Vocabulary
 
 | File | Description |
 |------|-------------|
-| [service-fabric-vocabulary.yml](vocabulary/service-fabric-vocabulary.yml) | Domain vocabulary for Service Fabric distributed systems concepts |
+| [service-fabric-vocabulary.yml](vocabulary/service-fabric-vocabulary.yml) | Domain vocabulary for Service Fabric distributed systems, microservices, and cluster management concepts |
 
 ## Maintainers
 

@@ -48,6 +48,14 @@ apis:
         url: https://github.com/microsoft/service-fabric
       - type: OpenAPI
         url: openapi/service-fabric-cluster-openapi.yml
+      - type: JSONSchema
+        url: json-schema/service-fabric-application-schema.json
+      - type: JSONStructure
+        url: json-structure/service-fabric-application-structure.json
+      - type: SpectralRules
+        url: rules/service-fabric-rules.yml
+      - type: Capabilities
+        url: capabilities/cluster-management.yaml
 
   - aid: service-fabric:service-fabric-sdk
     name: Service Fabric SDK
@@ -92,6 +100,10 @@ common:
     url: json-structure/service-fabric-application-structure.json
   - type: JSONLDContext
     url: json-ld/service-fabric-context.jsonld
+  - type: Examples
+    url: examples/service-fabric-create-application-example.json
+  - type: Examples
+    url: examples/service-fabric-get-cluster-health-example.json
   - type: Vocabulary
     url: vocabulary/service-fabric-vocabulary.yml
   - type: SpectralRules
