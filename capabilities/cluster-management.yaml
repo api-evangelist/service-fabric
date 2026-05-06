@@ -1,263 +1,465 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Service Fabric Cluster Management"
-  description: >-
-    Unified capability for managing Azure Service Fabric clusters, including
-    application lifecycle, node management, service monitoring, and cluster health.
-    Enables platform engineers and SREs to deploy applications, monitor cluster health,
+  label: Service Fabric Cluster Management
+  description: Unified capability for managing Azure Service Fabric clusters, including application lifecycle, node management,
+    service monitoring, and cluster health. Enables platform engineers and SREs to deploy applications, monitor cluster health,
     and manage the Service Fabric runtime via REST API.
   tags:
-    - Distributed Systems
-    - Cluster Management
-    - Application Lifecycle
-    - Health Monitoring
-    - Microservices
-    - Azure
-  created: "2026-05-02"
-  modified: "2026-05-02"
-
+  - Distributed Systems
+  - Cluster Management
+  - Application Lifecycle
+  - Health Monitoring
+  - Microservices
+  - Azure
+  created: '2026-05-02'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      SF_CLUSTER_ENDPOINT: SF_CLUSTER_ENDPOINT
-
+- namespace: env
+  keys:
+    SF_CLUSTER_ENDPOINT: SF_CLUSTER_ENDPOINT
 capability:
   consumes:
-    - import: sf-api
-      location: ./shared/service-fabric-api.yaml
-
+  - type: http
+    namespace: sf-api
+    baseUri: http://{{SF_CLUSTER_ENDPOINT}}:19080
+    description: Service Fabric HTTP Gateway
+    resources:
+    - name: cluster-health
+      path: /$/GetClusterHealth
+      description: Cluster health state
+      operations:
+      - name: get-cluster-health
+        method: GET
+        description: Returns the health state of the entire Service Fabric cluster
+        inputParameters:
+        - name: api-version
+          in: query
+          type: string
+          required: true
+          description: API version (9.1)
+        - name: NodesHealthStateFilter
+          in: query
+          type: integer
+          required: false
+          description: Health state filter for nodes
+        - name: ApplicationsHealthStateFilter
+          in: query
+          type: integer
+          required: false
+          description: Health state filter for applications
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: nodes
+      path: /Nodes
+      description: Cluster node listing
+      operations:
+      - name: get-node-info-list
+        method: GET
+        description: Returns the list of nodes in the Service Fabric cluster
+        inputParameters:
+        - name: api-version
+          in: query
+          type: string
+          required: true
+          description: API version
+        - name: NodeStatusFilter
+          in: query
+          type: string
+          required: false
+          description: Filter nodes by status (up, down, all, etc.)
+        - name: MaxResults
+          in: query
+          type: integer
+          required: false
+          description: Maximum results to return
+        - name: ContinuationToken
+          in: query
+          type: string
+          required: false
+          description: Pagination continuation token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: node
+      path: /Nodes/{nodeName}
+      description: Individual node information
+      operations:
+      - name: get-node-info
+        method: GET
+        description: Returns information about a specific cluster node
+        inputParameters:
+        - name: nodeName
+          in: path
+          type: string
+          required: true
+          description: Node name
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: applications
+      path: /Applications
+      description: Application listing
+      operations:
+      - name: get-application-info-list
+        method: GET
+        description: Returns the list of applications in the cluster
+        inputParameters:
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        - name: ApplicationTypeName
+          in: query
+          type: string
+          required: false
+          description: Filter by application type name
+        - name: ContinuationToken
+          in: query
+          type: string
+          required: false
+        - name: MaxResults
+          in: query
+          type: integer
+          required: false
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application
+      path: /Applications/{applicationId}
+      description: Individual application operations
+      operations:
+      - name: get-application-info
+        method: GET
+        description: Returns information about a specific application
+        inputParameters:
+        - name: applicationId
+          in: path
+          type: string
+          required: true
+          description: Application ID
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: create-application
+      path: /Applications/$/Create
+      description: Create a new application
+      operations:
+      - name: create-application
+        method: POST
+        description: Creates a Service Fabric application
+        inputParameters:
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        body:
+          type: json
+          data:
+            Name: '{{tools.name}}'
+            TypeName: '{{tools.type_name}}'
+            TypeVersion: '{{tools.type_version}}'
+    - name: delete-application
+      path: /Applications/{applicationId}/$/Delete
+      description: Delete an application
+      operations:
+      - name: delete-application
+        method: POST
+        description: Deletes a Service Fabric application
+        inputParameters:
+        - name: applicationId
+          in: path
+          type: string
+          required: true
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        - name: ForceRemove
+          in: query
+          type: boolean
+          required: false
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-health
+      path: /Applications/{applicationId}/$/GetHealth
+      description: Application health state
+      operations:
+      - name: get-application-health
+        method: GET
+        description: Returns health state for a specific application
+        inputParameters:
+        - name: applicationId
+          in: path
+          type: string
+          required: true
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: services
+      path: /Applications/{applicationId}/$/GetServices
+      description: Services within an application
+      operations:
+      - name: get-service-info-list
+        method: GET
+        description: Returns services in a specific application
+        inputParameters:
+        - name: applicationId
+          in: path
+          type: string
+          required: true
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        - name: ServiceTypeName
+          in: query
+          type: string
+          required: false
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: sf-cluster-management-api
-      description: "Unified REST API for Service Fabric cluster and application management."
-      resources:
-        - path: /v1/cluster/health
-          name: cluster-health
-          description: "Overall cluster health state"
-          operations:
-            - method: GET
-              name: get-cluster-health
-              description: "Get the aggregated health state of the cluster"
-              call: "sf-api.get-cluster-health"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/nodes
-          name: nodes
-          description: "Cluster node management"
-          operations:
-            - method: GET
-              name: list-nodes
-              description: "List all nodes in the cluster"
-              call: "sf-api.get-node-info-list"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/nodes/{node_name}
-          name: node
-          description: "Individual node information"
-          operations:
-            - method: GET
-              name: get-node
-              description: "Get information for a specific cluster node"
-              call: "sf-api.get-node-info"
-              with:
-                nodeName: "rest.node_name"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/applications
-          name: applications
-          description: "Application lifecycle management"
-          operations:
-            - method: GET
-              name: list-applications
-              description: "List all deployed applications"
-              call: "sf-api.get-application-info-list"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: POST
-              name: create-application
-              description: "Deploy a new application"
-              call: "sf-api.create-application"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/applications/{application_id}
-          name: application
-          description: "Individual application management"
-          operations:
-            - method: GET
-              name: get-application
-              description: "Get information for a specific application"
-              call: "sf-api.get-application-info"
-              with:
-                applicationId: "rest.application_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: DELETE
-              name: delete-application
-              description: "Delete a deployed application"
-              call: "sf-api.delete-application"
-              with:
-                applicationId: "rest.application_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/applications/{application_id}/health
-          name: application-health
-          description: "Application health monitoring"
-          operations:
-            - method: GET
-              name: get-application-health
-              description: "Get health state for an application and its services"
-              call: "sf-api.get-application-health"
-              with:
-                applicationId: "rest.application_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/applications/{application_id}/services
-          name: services
-          description: "Service management within an application"
-          operations:
-            - method: GET
-              name: list-services
-              description: "List services within an application"
-              call: "sf-api.get-service-info-list"
-              with:
-                applicationId: "rest.application_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: sf-cluster-management-mcp
-      transport: http
-      description: "MCP server for AI-assisted Service Fabric cluster management and health monitoring."
-      tools:
-        - name: get-cluster-health
-          description: >-
-            Get the overall health state of the Service Fabric cluster. Returns
-            aggregated health state (Ok/Warning/Error) plus per-node and
-            per-application health states.
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-cluster-health"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-nodes
-          description: >-
-            List all nodes in the Service Fabric cluster. Filter by node status
-            (up, down, all). Includes node name, IP, node type, and health state.
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-node-info-list"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-node-info
-          description: "Get detailed information about a specific cluster node by name"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-node-info"
-          with:
-            nodeName: "tools.node_name"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-applications
-          description: >-
-            List all applications deployed in the Service Fabric cluster.
-            Optionally filter by application type name.
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-application-info-list"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-application-info
-          description: "Get detailed information about a specific deployed application"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-application-info"
-          with:
-            applicationId: "tools.application_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: create-application
-          description: >-
-            Deploy a new Service Fabric application to the cluster. Requires the
-            application type to be provisioned first. Provide Name (fabric:/MyApp),
-            TypeName, and TypeVersion.
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "sf-api.create-application"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: delete-application
-          description: >-
-            Delete a deployed Service Fabric application and all its services.
-            Use ForceRemove=true only when the application is stuck in a deleting state.
-          hints:
-            readOnly: false
-            destructive: true
-            idempotent: true
-          call: "sf-api.delete-application"
-          with:
-            applicationId: "tools.application_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-application-health
-          description: >-
-            Get the health state of a specific application, including per-service
-            health rollups and any active health events.
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-application-health"
-          with:
-            applicationId: "tools.application_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-services
-          description: "List all services within a specific Service Fabric application"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "sf-api.get-service-info-list"
-          with:
-            applicationId: "tools.application_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: sf-cluster-management-api
+    description: Unified REST API for Service Fabric cluster and application management.
+    resources:
+    - path: /v1/cluster/health
+      name: cluster-health
+      description: Overall cluster health state
+      operations:
+      - method: GET
+        name: get-cluster-health
+        description: Get the aggregated health state of the cluster
+        call: sf-api.get-cluster-health
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/nodes
+      name: nodes
+      description: Cluster node management
+      operations:
+      - method: GET
+        name: list-nodes
+        description: List all nodes in the cluster
+        call: sf-api.get-node-info-list
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/nodes/{node_name}
+      name: node
+      description: Individual node information
+      operations:
+      - method: GET
+        name: get-node
+        description: Get information for a specific cluster node
+        call: sf-api.get-node-info
+        with:
+          nodeName: rest.node_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications
+      name: applications
+      description: Application lifecycle management
+      operations:
+      - method: GET
+        name: list-applications
+        description: List all deployed applications
+        call: sf-api.get-application-info-list
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create-application
+        description: Deploy a new application
+        call: sf-api.create-application
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{application_id}
+      name: application
+      description: Individual application management
+      operations:
+      - method: GET
+        name: get-application
+        description: Get information for a specific application
+        call: sf-api.get-application-info
+        with:
+          applicationId: rest.application_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete-application
+        description: Delete a deployed application
+        call: sf-api.delete-application
+        with:
+          applicationId: rest.application_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{application_id}/health
+      name: application-health
+      description: Application health monitoring
+      operations:
+      - method: GET
+        name: get-application-health
+        description: Get health state for an application and its services
+        call: sf-api.get-application-health
+        with:
+          applicationId: rest.application_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{application_id}/services
+      name: services
+      description: Service management within an application
+      operations:
+      - method: GET
+        name: list-services
+        description: List services within an application
+        call: sf-api.get-service-info-list
+        with:
+          applicationId: rest.application_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: sf-cluster-management-mcp
+    transport: http
+    description: MCP server for AI-assisted Service Fabric cluster management and health monitoring.
+    tools:
+    - name: get-cluster-health
+      description: Get the overall health state of the Service Fabric cluster. Returns aggregated health state (Ok/Warning/Error)
+        plus per-node and per-application health states.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-cluster-health
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-nodes
+      description: List all nodes in the Service Fabric cluster. Filter by node status (up, down, all). Includes node name,
+        IP, node type, and health state.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-node-info-list
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-node-info
+      description: Get detailed information about a specific cluster node by name
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-node-info
+      with:
+        nodeName: tools.node_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-applications
+      description: List all applications deployed in the Service Fabric cluster. Optionally filter by application type name.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-application-info-list
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-application-info
+      description: Get detailed information about a specific deployed application
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-application-info
+      with:
+        applicationId: tools.application_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-application
+      description: Deploy a new Service Fabric application to the cluster. Requires the application type to be provisioned
+        first. Provide Name (fabric:/MyApp), TypeName, and TypeVersion.
+      hints:
+        readOnly: false
+        idempotent: false
+      call: sf-api.create-application
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-application
+      description: Delete a deployed Service Fabric application and all its services. Use ForceRemove=true only when the application
+        is stuck in a deleting state.
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: sf-api.delete-application
+      with:
+        applicationId: tools.application_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-application-health
+      description: Get the health state of a specific application, including per-service health rollups and any active health
+        events.
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-application-health
+      with:
+        applicationId: tools.application_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-services
+      description: List all services within a specific Service Fabric application
+      hints:
+        readOnly: true
+        idempotent: true
+      call: sf-api.get-service-info-list
+      with:
+        applicationId: tools.application_id
+      outputParameters:
+      - type: object
+        mapping: $.
