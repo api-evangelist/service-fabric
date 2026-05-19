@@ -1,0 +1,126 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Service Fabric Cluster Management API — Nodes
+  description: 'Service Fabric Cluster Management API — Nodes. 2 operations. Lead operation: Get Node Info List. Self-contained
+    Naftiko capability covering one Service Fabric business surface.'
+  tags:
+  - Service Fabric
+  - Nodes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SERVICE_FABRIC_API_KEY: SERVICE_FABRIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-nodes
+    baseUri: http://{cluster_endpoint}:19080
+    description: Service Fabric Cluster Management API — Nodes business capability. Self-contained, no shared references.
+    resources:
+    - name: Nodes
+      path: /Nodes
+      operations:
+      - name: getnodeinfolist
+        method: GET
+        description: Get Node Info List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: api-version
+          in: query
+          type: string
+          required: true
+        - name: ContinuationToken
+          in: query
+          type: string
+          description: Continuation token for pagination
+        - name: NodeStatusFilter
+          in: query
+          type: string
+          description: Filter nodes by node status
+        - name: MaxResults
+          in: query
+          type: integer
+          description: Maximum results to return
+    - name: Nodes-nodeName
+      path: /Nodes/{nodeName}
+      operations:
+      - name: getnodeinfo
+        method: GET
+        description: Get Node Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: cluster-nodes-rest
+    port: 8080
+    description: REST adapter for Service Fabric Cluster Management API — Nodes. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/nodes
+      name: nodes
+      description: REST surface for Nodes.
+      operations:
+      - method: GET
+        name: getnodeinfolist
+        description: Get Node Info List
+        call: cluster-nodes.getnodeinfolist
+        with:
+          api-version: rest.api-version
+          ContinuationToken: rest.ContinuationToken
+          NodeStatusFilter: rest.NodeStatusFilter
+          MaxResults: rest.MaxResults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/nodes/{nodename}
+      name: nodes-nodename
+      description: REST surface for Nodes-nodeName.
+      operations:
+      - method: GET
+        name: getnodeinfo
+        description: Get Node Info
+        call: cluster-nodes.getnodeinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-nodes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Service Fabric Cluster Management API — Nodes. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-node-info-list
+      description: Get Node Info List
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-nodes.getnodeinfolist
+      with:
+        api-version: tools.api-version
+        ContinuationToken: tools.ContinuationToken
+        NodeStatusFilter: tools.NodeStatusFilter
+        MaxResults: tools.MaxResults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-node-info
+      description: Get Node Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-nodes.getnodeinfo
+      outputParameters:
+      - type: object
+        mapping: $.

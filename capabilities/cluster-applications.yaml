@@ -1,0 +1,241 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Service Fabric Cluster Management API — Applications
+  description: 'Service Fabric Cluster Management API — Applications. 5 operations. Lead operation: Get Application Info List.
+    Self-contained Naftiko capability covering one Service Fabric business surface.'
+  tags:
+  - Service Fabric
+  - Applications
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SERVICE_FABRIC_API_KEY: SERVICE_FABRIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-applications
+    baseUri: http://{cluster_endpoint}:19080
+    description: Service Fabric Cluster Management API — Applications business capability. Self-contained, no shared references.
+    resources:
+    - name: Applications
+      path: /Applications
+      operations:
+      - name: getapplicationinfolist
+        method: GET
+        description: Get Application Info List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ApplicationTypeName
+          in: query
+          type: string
+          description: Filter by application type name
+        - name: ContinuationToken
+          in: query
+          type: string
+        - name: MaxResults
+          in: query
+          type: integer
+    - name: Applications-$-Create
+      path: /Applications/$/Create
+      operations:
+      - name: createapplication
+        method: POST
+        description: Create Application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: Applications-applicationId
+      path: /Applications/{applicationId}
+      operations:
+      - name: getapplicationinfo
+        method: GET
+        description: Get Application Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: Applications-applicationId-$-Delete
+      path: /Applications/{applicationId}/$/Delete
+      operations:
+      - name: deleteapplication
+        method: POST
+        description: Delete Application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ForceRemove
+          in: query
+          type: boolean
+          description: Force remove the application without graceful shutdown
+    - name: Applications-applicationId-$-GetHealth
+      path: /Applications/{applicationId}/$/GetHealth
+      operations:
+      - name: getapplicationhealth
+        method: GET
+        description: Get Application Health
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ServicesHealthStateFilter
+          in: query
+          type: integer
+  exposes:
+  - type: rest
+    namespace: cluster-applications-rest
+    port: 8080
+    description: REST adapter for Service Fabric Cluster Management API — Applications. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/applications
+      name: applications
+      description: REST surface for Applications.
+      operations:
+      - method: GET
+        name: getapplicationinfolist
+        description: Get Application Info List
+        call: cluster-applications.getapplicationinfolist
+        with:
+          ApplicationTypeName: rest.ApplicationTypeName
+          ContinuationToken: rest.ContinuationToken
+          MaxResults: rest.MaxResults
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications//create
+      name: applications-create
+      description: REST surface for Applications-$-Create.
+      operations:
+      - method: POST
+        name: createapplication
+        description: Create Application
+        call: cluster-applications.createapplication
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{applicationid}
+      name: applications-applicationid
+      description: REST surface for Applications-applicationId.
+      operations:
+      - method: GET
+        name: getapplicationinfo
+        description: Get Application Info
+        call: cluster-applications.getapplicationinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{applicationid}//delete
+      name: applications-applicationid-delete
+      description: REST surface for Applications-applicationId-$-Delete.
+      operations:
+      - method: POST
+        name: deleteapplication
+        description: Delete Application
+        call: cluster-applications.deleteapplication
+        with:
+          ForceRemove: rest.ForceRemove
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/applications/{applicationid}//gethealth
+      name: applications-applicationid-gethealth
+      description: REST surface for Applications-applicationId-$-GetHealth.
+      operations:
+      - method: GET
+        name: getapplicationhealth
+        description: Get Application Health
+        call: cluster-applications.getapplicationhealth
+        with:
+          ServicesHealthStateFilter: rest.ServicesHealthStateFilter
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-applications-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Service Fabric Cluster Management API — Applications. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: get-application-info-list
+      description: Get Application Info List
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-applications.getapplicationinfolist
+      with:
+        ApplicationTypeName: tools.ApplicationTypeName
+        ContinuationToken: tools.ContinuationToken
+        MaxResults: tools.MaxResults
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-application
+      description: Create Application
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cluster-applications.createapplication
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-application-info
+      description: Get Application Info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-applications.getapplicationinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-application
+      description: Delete Application
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cluster-applications.deleteapplication
+      with:
+        ForceRemove: tools.ForceRemove
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-application-health
+      description: Get Application Health
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-applications.getapplicationhealth
+      with:
+        ServicesHealthStateFilter: tools.ServicesHealthStateFilter
+      outputParameters:
+      - type: object
+        mapping: $.

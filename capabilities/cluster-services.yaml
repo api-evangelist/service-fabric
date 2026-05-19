@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Service Fabric Cluster Management API — Services
+  description: 'Service Fabric Cluster Management API — Services. 1 operations. Lead operation: Get Service Info List. Self-contained
+    Naftiko capability covering one Service Fabric business surface.'
+  tags:
+  - Service Fabric
+  - Services
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SERVICE_FABRIC_API_KEY: SERVICE_FABRIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-services
+    baseUri: http://{cluster_endpoint}:19080
+    description: Service Fabric Cluster Management API — Services business capability. Self-contained, no shared references.
+    resources:
+    - name: Applications-applicationId-$-GetServices
+      path: /Applications/{applicationId}/$/GetServices
+      operations:
+      - name: getserviceinfolist
+        method: GET
+        description: Get Service Info List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ServiceTypeName
+          in: query
+          type: string
+          description: Filter by service type name
+        - name: ContinuationToken
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: cluster-services-rest
+    port: 8080
+    description: REST adapter for Service Fabric Cluster Management API — Services. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/applications/{applicationid}//getservices
+      name: applications-applicationid-getservices
+      description: REST surface for Applications-applicationId-$-GetServices.
+      operations:
+      - method: GET
+        name: getserviceinfolist
+        description: Get Service Info List
+        call: cluster-services.getserviceinfolist
+        with:
+          ServiceTypeName: rest.ServiceTypeName
+          ContinuationToken: rest.ContinuationToken
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-services-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Service Fabric Cluster Management API — Services. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: get-service-info-list
+      description: Get Service Info List
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-services.getserviceinfolist
+      with:
+        ServiceTypeName: tools.ServiceTypeName
+        ContinuationToken: tools.ContinuationToken
+      outputParameters:
+      - type: object
+        mapping: $.
