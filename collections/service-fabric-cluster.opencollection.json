@@ -1,0 +1,314 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Service Fabric Cluster Management API",
+    "version": "9.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Cluster Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/$/GetClusterHealth",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "NodesHealthStateFilter",
+                "value": "",
+                "type": "query",
+                "description": "Health state filter for nodes (0=Default, 1=Ok, 2=Warning, 4=Error, 65535=All)"
+              },
+              {
+                "name": "ApplicationsHealthStateFilter",
+                "value": "",
+                "type": "query",
+                "description": "Health state filter for applications"
+              }
+            ]
+          },
+          "docs": "Returns the health state of the Service Fabric cluster including nodes, applications, and system services."
+        },
+        {
+          "info": {
+            "name": "Get Application Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId/$/GetHealth",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ServicesHealthStateFilter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the health of the specified Service Fabric application."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Nodes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Node Info List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Nodes",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "Continuation token for pagination"
+              },
+              {
+                "name": "NodeStatusFilter",
+                "value": "",
+                "type": "query",
+                "description": "Filter nodes by node status"
+              },
+              {
+                "name": "MaxResults",
+                "value": "",
+                "type": "query",
+                "description": "Maximum results to return"
+              }
+            ]
+          },
+          "docs": "Returns the list of nodes in the Service Fabric cluster."
+        },
+        {
+          "info": {
+            "name": "Get Node Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Nodes/:nodeName",
+            "params": [
+              {
+                "name": "nodeName",
+                "value": "",
+                "type": "path",
+                "description": "Service Fabric node name"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              }
+            ]
+          },
+          "docs": "Returns information about a specific node in the Service Fabric cluster."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Application Info List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ApplicationTypeName",
+                "value": "",
+                "type": "query",
+                "description": "Filter by application type name"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "MaxResults",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the list of applications created in the Service Fabric cluster."
+        },
+        {
+          "info": {
+            "name": "Get Application Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              }
+            ]
+          },
+          "docs": "Returns information about a specific Service Fabric application."
+        },
+        {
+          "info": {
+            "name": "Create Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://{cluster_endpoint}:19080/Applications/$/Create",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a Service Fabric application using the specified application description."
+        },
+        {
+          "info": {
+            "name": "Delete Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId/$/Delete",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ForceRemove",
+                "value": "",
+                "type": "query",
+                "description": "Force remove the application without graceful shutdown"
+              }
+            ]
+          },
+          "docs": "Deletes an existing Service Fabric application. An application must be created before it can be deleted."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Service Info List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId/$/GetServices",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ServiceTypeName",
+                "value": "",
+                "type": "query",
+                "description": "Filter by service type name"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns services in the specified Service Fabric application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
