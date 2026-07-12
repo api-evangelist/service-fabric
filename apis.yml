@@ -72,6 +72,10 @@ apis:
       - type: Maven
         url: https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors
 common:
+  - type: VulnerabilityDisclosure
+    url: security/service-fabric-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/service-fabric-domain-security.yml
   - type: Website
     url: https://docs.microsoft.com/en-us/azure/service-fabric/
   - type: GitHub
