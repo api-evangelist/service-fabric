@@ -72,6 +72,8 @@ apis:
       - type: Maven
         url: https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors
 common:
+  - type: AgenticAccess
+    url: agentic-access/service-fabric-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/service-fabric-vulnerability-disclosure.yml
   - type: DomainSecurity
