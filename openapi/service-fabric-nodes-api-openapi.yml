@@ -1,0 +1,162 @@
+openapi: 3.1.0
+info:
+  title: Service Fabric Cluster Management Applications Nodes API
+  description: The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.
+  version: '9.1'
+  contact:
+    name: Azure Service Fabric Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/
+  license:
+    name: MIT
+    url: https://github.com/microsoft/service-fabric/blob/master/LICENSE
+servers:
+- url: http://{cluster_endpoint}:19080
+  description: Service Fabric HTTP Gateway
+  variables:
+    cluster_endpoint:
+      description: Service Fabric cluster endpoint (FQDN or IP)
+      default: localhost
+tags:
+- name: Nodes
+  description: Cluster node management
+paths:
+  /Nodes:
+    get:
+      operationId: getNodeInfoList
+      summary: Get Node Info List
+      description: Returns the list of nodes in the Service Fabric cluster.
+      tags:
+      - Nodes
+      parameters:
+      - name: api-version
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '9.1'
+      - name: ContinuationToken
+        in: query
+        schema:
+          type: string
+        description: Continuation token for pagination
+      - name: NodeStatusFilter
+        in: query
+        schema:
+          type: string
+          enum:
+          - default
+          - all
+          - up
+          - down
+          - enabling
+          - disabling
+          - disabled
+          - unknown
+          - removed
+        description: Filter nodes by node status
+      - name: MaxResults
+        in: query
+        schema:
+          type: integer
+        description: Maximum results to return
+      responses:
+        '200':
+          description: List of cluster nodes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedNodeInfoList'
+        '400':
+          description: Invalid parameters
+  /Nodes/{nodeName}:
+    get:
+      operationId: getNodeInfo
+      summary: Get Node Info
+      description: Returns information about a specific node in the Service Fabric cluster.
+      tags:
+      - Nodes
+      parameters:
+      - $ref: '#/components/parameters/NodeName'
+      - $ref: '#/components/parameters/ApiVersion'
+      responses:
+        '200':
+          description: Node information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfo'
+        '404':
+          description: Node not found
+components:
+  parameters:
+    NodeName:
+      name: nodeName
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Service Fabric node name
+    ApiVersion:
+      name: api-version
+      in: query
+      required: true
+      schema:
+        type: string
+        default: '9.1'
+      description: Service Fabric API version
+  schemas:
+    PagedNodeInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+          description: Token for fetching the next page of results
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeInfo'
+    NodeInfo:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        IpAddressOrFQDN:
+          type: string
+          description: IP address or FQDN of the node
+        Type:
+          type: string
+          description: Node type name
+        NodeStatus:
+          type: string
+          enum:
+          - Invalid
+          - Up
+          - Down
+          - Enabling
+          - Disabling
+          - Disabled
+          - Unknown
+          - Removed
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        IsSeedNode:
+          type: boolean
+          description: Whether this is a seed node
+        UpgradeProgressDetails:
+          type: object
+        NodeUpTimeInSeconds:
+          type: string
+        StartedTimestamp:
+          type: string
+          format: date-time
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state

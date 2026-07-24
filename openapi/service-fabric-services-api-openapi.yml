@@ -1,0 +1,117 @@
+openapi: 3.1.0
+info:
+  title: Service Fabric Cluster Management Applications Services API
+  description: The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.
+  version: '9.1'
+  contact:
+    name: Azure Service Fabric Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/
+  license:
+    name: MIT
+    url: https://github.com/microsoft/service-fabric/blob/master/LICENSE
+servers:
+- url: http://{cluster_endpoint}:19080
+  description: Service Fabric HTTP Gateway
+  variables:
+    cluster_endpoint:
+      description: Service Fabric cluster endpoint (FQDN or IP)
+      default: localhost
+tags:
+- name: Services
+  description: Service management within applications
+paths:
+  /Applications/{applicationId}/$/GetServices:
+    get:
+      operationId: getServiceInfoList
+      summary: Get Service Info List
+      description: Returns services in the specified Service Fabric application.
+      tags:
+      - Services
+      parameters:
+      - $ref: '#/components/parameters/ApplicationId'
+      - $ref: '#/components/parameters/ApiVersion'
+      - name: ServiceTypeName
+        in: query
+        schema:
+          type: string
+        description: Filter by service type name
+      - name: ContinuationToken
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedServiceInfoList'
+        '404':
+          description: Application not found
+components:
+  schemas:
+    ServiceInfo:
+      type: object
+      properties:
+        Id:
+          type: string
+        ServiceKind:
+          type: string
+          enum:
+          - Invalid
+          - Stateless
+          - Stateful
+        Name:
+          type: string
+        TypeName:
+          type: string
+        ManifestVersion:
+          type: string
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceStatus:
+          type: string
+          enum:
+          - Unknown
+          - Active
+          - Upgrading
+          - Deleting
+          - Creating
+          - Failed
+        IsServiceGroup:
+          type: boolean
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
+    PagedServiceInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInfo'
+  parameters:
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
+    ApiVersion:
+      name: api-version
+      in: query
+      required: true
+      schema:
+        type: string
+        default: '9.1'
+      description: Service Fabric API version
