@@ -7,7 +7,19 @@ description: >-
   provides a programming model for building stateful and stateless microservices, reliable collections, and actor-based
   services. The Service Fabric REST API enables cluster management, application lifecycle, and service configuration.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/service-fabric.png
 tags:
   - Distributed Systems
   - Microservices
@@ -21,56 +33,146 @@ created: '2026-05-02'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-  - aid: service-fabric:service-fabric-cluster-api
-    name: Service Fabric Cluster Management API
-    description: >-
-      The Service Fabric Cluster Management REST API enables management of Service Fabric clusters, nodes, applications,
-      services, partitions, replicas, and health states. Provides operations for application lifecycle management
-      (provision, create, upgrade, delete) and cluster health monitoring.
-    humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
-    baseURL: http://{cluster-endpoint}:19080
-    tags:
-      - Distributed Systems
-      - Cluster Management
-      - Application Lifecycle
-      - Health Monitoring
-    properties:
-      - type: Documentation
-        url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
-      - type: Reference
-        url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
-      - type: GitHub
-        url: https://github.com/microsoft/service-fabric
-      - type: OpenAPI
-        url: openapi/service-fabric-cluster-openapi.yml
-      - type: JSONSchema
-        url: json-schema/service-fabric-application-schema.json
-      - type: JSONStructure
-        url: json-structure/service-fabric-application-structure.json
-      - type: SpectralRules
-        url: rules/service-fabric-rules.yml
-      - type: Capabilities
-        url: capabilities/cluster-management.yaml
-  - aid: service-fabric:service-fabric-sdk
-    name: Service Fabric SDK
-    description: >-
-      Service Fabric SDK provides client libraries for .NET, Java, and Go for building Service Fabric services and
-      interacting with the cluster. The SDK includes Reliable Collections, Reliable Actors, and the Reliable Services
-      programming model.
-    humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
-    tags:
-      - SDK
-      - .NET
-      - Java
-      - Microservices
-      - Reliable Collections
-    properties:
-      - type: Documentation
-        url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
-      - type: NuGet
-        url: https://www.nuget.org/packages/Microsoft.ServiceFabric/
-      - type: Maven
-        url: https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors
+- aid: service-fabric:service-fabric-sdk
+  name: Service Fabric SDK
+  description: >-
+    Service Fabric SDK provides client libraries for .NET, Java, and Go for building Service Fabric services
+    and interacting with the cluster. The SDK includes Reliable Collections, Reliable Actors, and the
+    Reliable Services programming model.
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
+  tags:
+  - SDK
+  - .NET
+  - Java
+  - Microservices
+  - Reliable Collections
+  properties:
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-get-started
+  - type: NuGet
+    url: https://www.nuget.org/packages/Microsoft.ServiceFabric/
+  - type: Maven
+    url: https://mvnrepository.com/artifact/com.microsoft.servicefabric/sf-actors
+- aid: service-fabric:service-fabric-applications-api
+  name: Service Fabric Applications API
+  description: Application deployment and lifecycle
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  baseURL: http://{cluster-endpoint}:19080
+  tags:
+  - Applications
+  properties:
+  - type: OpenAPI
+    url: openapi/service-fabric-applications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  - type: Reference
+    url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
+  - type: GitHub
+    url: https://github.com/microsoft/service-fabric
+  - type: JSONSchema
+    url: json-schema/service-fabric-application-schema.json
+  - type: JSONStructure
+    url: json-structure/service-fabric-application-structure.json
+  - type: SpectralRules
+    url: rules/service-fabric-rules.yml
+  - type: Capabilities
+    url: capabilities/cluster-management.yaml
+- aid: service-fabric:service-fabric-cluster-api
+  name: Service Fabric Cluster API
+  description: Cluster-level operations and configuration
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  baseURL: http://{cluster-endpoint}:19080
+  tags:
+  - Cluster
+  properties:
+  - type: OpenAPI
+    url: openapi/service-fabric-cluster-api-openapi.yml
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  - type: Reference
+    url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
+  - type: GitHub
+    url: https://github.com/microsoft/service-fabric
+  - type: JSONSchema
+    url: json-schema/service-fabric-application-schema.json
+  - type: JSONStructure
+    url: json-structure/service-fabric-application-structure.json
+  - type: SpectralRules
+    url: rules/service-fabric-rules.yml
+  - type: Capabilities
+    url: capabilities/cluster-management.yaml
+- aid: service-fabric:service-fabric-health-api
+  name: Service Fabric Health API
+  description: Health state queries and reporting
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  baseURL: http://{cluster-endpoint}:19080
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/service-fabric-health-api-openapi.yml
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  - type: Reference
+    url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
+  - type: GitHub
+    url: https://github.com/microsoft/service-fabric
+  - type: JSONSchema
+    url: json-schema/service-fabric-application-schema.json
+  - type: JSONStructure
+    url: json-structure/service-fabric-application-structure.json
+  - type: SpectralRules
+    url: rules/service-fabric-rules.yml
+  - type: Capabilities
+    url: capabilities/cluster-management.yaml
+- aid: service-fabric:service-fabric-nodes-api
+  name: Service Fabric Nodes API
+  description: Cluster node management
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  baseURL: http://{cluster-endpoint}:19080
+  tags:
+  - Nodes
+  properties:
+  - type: OpenAPI
+    url: openapi/service-fabric-nodes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  - type: Reference
+    url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
+  - type: GitHub
+    url: https://github.com/microsoft/service-fabric
+  - type: JSONSchema
+    url: json-schema/service-fabric-application-schema.json
+  - type: JSONStructure
+    url: json-structure/service-fabric-application-structure.json
+  - type: SpectralRules
+    url: rules/service-fabric-rules.yml
+  - type: Capabilities
+    url: capabilities/cluster-management.yaml
+- aid: service-fabric:service-fabric-services-api
+  name: Service Fabric Services API
+  description: Service management within applications
+  humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  baseURL: http://{cluster-endpoint}:19080
+  tags:
+  - Services
+  properties:
+  - type: OpenAPI
+    url: openapi/service-fabric-services-api-openapi.yml
+  - type: Documentation
+    url: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
+  - type: Reference
+    url: https://docs.microsoft.com/en-us/rest/api/servicefabric/
+  - type: GitHub
+    url: https://github.com/microsoft/service-fabric
+  - type: JSONSchema
+    url: json-schema/service-fabric-application-schema.json
+  - type: JSONStructure
+    url: json-structure/service-fabric-application-structure.json
+  - type: SpectralRules
+    url: rules/service-fabric-rules.yml
+  - type: Capabilities
+    url: capabilities/cluster-management.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/service-fabric-agentic-access.yml
