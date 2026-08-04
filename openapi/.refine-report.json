@@ -1,0 +1,22 @@
+{
+  "provider": "service-fabric",
+  "sources": [
+    "service-fabric-applications-api-openapi.yml",
+    "service-fabric-cluster-api-openapi.yml",
+    "service-fabric-health-api-openapi.yml",
+    "service-fabric-nodes-api-openapi.yml",
+    "service-fabric-services-api-openapi.yml"
+  ],
+  "outputs": [
+    "service-fabric-applications-api-openapi.yml",
+    "service-fabric-cluster-api-openapi.yml",
+    "service-fabric-health-api-openapi.yml",
+    "service-fabric-nodes-api-openapi.yml",
+    "service-fabric-services-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
