@@ -75,8 +75,6 @@ apis:
     url: json-structure/service-fabric-application-structure.json
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 - aid: service-fabric:service-fabric-cluster-api
   name: Service Fabric Cluster API
   description: Cluster-level operations and configuration
@@ -99,8 +97,6 @@ apis:
     url: json-structure/service-fabric-application-structure.json
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 - aid: service-fabric:service-fabric-health-api
   name: Service Fabric Health API
   description: Health state queries and reporting
@@ -123,8 +119,6 @@ apis:
     url: json-structure/service-fabric-application-structure.json
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 - aid: service-fabric:service-fabric-nodes-api
   name: Service Fabric Nodes API
   description: Cluster node management
@@ -147,8 +141,6 @@ apis:
     url: json-structure/service-fabric-application-structure.json
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 - aid: service-fabric:service-fabric-services-api
   name: Service Fabric Services API
   description: Service management within applications
@@ -171,8 +163,6 @@ apis:
     url: json-structure/service-fabric-application-structure.json
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/service-fabric-agentic-access.yml
@@ -208,8 +198,6 @@ common:
     url: vocabulary/service-fabric-vocabulary.yml
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
-  - type: Capabilities
-    url: capabilities/cluster-management.yaml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
