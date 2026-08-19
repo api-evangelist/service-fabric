@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Service Fabric Cluster Management Applications Health API",
+    "version": "9.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Cluster Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/$/GetClusterHealth",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "NodesHealthStateFilter",
+                "value": "",
+                "type": "query",
+                "description": "Health state filter for nodes (0=Default, 1=Ok, 2=Warning, 4=Error, 65535=All)"
+              },
+              {
+                "name": "ApplicationsHealthStateFilter",
+                "value": "",
+                "type": "query",
+                "description": "Health state filter for applications"
+              }
+            ]
+          },
+          "docs": "Returns the health state of the Service Fabric cluster including nodes, applications, and system services."
+        },
+        {
+          "info": {
+            "name": "Get Application Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId/$/GetHealth",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ServicesHealthStateFilter",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the health of the specified Service Fabric application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,259 @@
+{
+  "item": [
+    {
+      "id": "caf9e5a8-8030-46a0-9147-183286c0fa69",
+      "name": "Cluster",
+      "description": {
+        "content": "Cluster-level operations and configuration",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d4110bda-8dfe-43cd-b6a4-ec398f69a039",
+          "name": "Get Cluster Health",
+          "request": {
+            "name": "Get Cluster Health",
+            "description": {
+              "content": "Returns the health state of the Service Fabric cluster including nodes, applications, and system services.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "$",
+                "GetClusterHealth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                },
+                {
+                  "disabled": false,
+                  "key": "NodesHealthStateFilter",
+                  "value": "0",
+                  "description": "Health state filter for nodes (0=Default, 1=Ok, 2=Warning, 4=Error, 65535=All)"
+                },
+                {
+                  "disabled": false,
+                  "key": "ApplicationsHealthStateFilter",
+                  "value": "0",
+                  "description": "Health state filter for applications"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1851fb31-09c9-4f30-8a5e-033936f6b4a0",
+              "name": "Cluster health state",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "$",
+                    "GetClusterHealth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "NodesHealthStateFilter",
+                      "value": "0"
+                    },
+                    {
+                      "key": "ApplicationsHealthStateFilter",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"AggregatedHealthState\": \"Error\",\n  \"NodeHealthStates\": [\n    {\n      \"Name\": \"string\",\n      \"AggregatedHealthState\": \"Error\"\n    },\n    {\n      \"Name\": \"string\",\n      \"AggregatedHealthState\": \"Invalid\"\n    }\n  ],\n  \"ApplicationHealthStates\": [\n    {\n      \"Name\": \"string\",\n      \"AggregatedHealthState\": \"Ok\"\n    },\n    {\n      \"Name\": \"string\",\n      \"AggregatedHealthState\": \"Warning\"\n    }\n  ],\n  \"HealthEvents\": [\n    {\n      \"SourceId\": \"string\",\n      \"Property\": \"string\",\n      \"HealthState\": \"Ok\",\n      \"Description\": \"string\",\n      \"TimeToLiveInMilliSeconds\": \"string\",\n      \"SequenceNumber\": \"string\",\n      \"IsExpired\": true,\n      \"SourceUtcTimestamp\": \"2018-11-24T12:12:31.317Z\",\n      \"LastModifiedUtcTimestamp\": \"1995-12-29T20:10:56.317Z\"\n    },\n    {\n      \"SourceId\": \"string\",\n      \"Property\": \"string\",\n      \"HealthState\": \"Ok\",\n      \"Description\": \"string\",\n      \"TimeToLiveInMilliSeconds\": \"string\",\n      \"SequenceNumber\": \"string\",\n      \"IsExpired\": false,\n      \"SourceUtcTimestamp\": \"1967-04-07T06:11:14.004Z\",\n      \"LastModifiedUtcTimestamp\": \"1949-03-05T00:12:33.441Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5d7e98c-8f14-4949-8d0d-9a38f2c7fcaa",
+              "name": "Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "$",
+                    "GetClusterHealth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "NodesHealthStateFilter",
+                      "value": "0"
+                    },
+                    {
+                      "key": "ApplicationsHealthStateFilter",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e34292f7-bae3-4fb2-8c35-54179dbdcd07",
+              "name": "Internal cluster error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "$",
+                    "GetClusterHealth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "NodesHealthStateFilter",
+                      "value": "0"
+                    },
+                    {
+                      "key": "ApplicationsHealthStateFilter",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Service Fabric cluster endpoint (FQDN or IP)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost",
+      "key": "cluster_endpoint"
+    },
+    {
+      "type": "string",
+      "value": "http://{{cluster_endpoint}}:19080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "28f15621-b084-44c2-ad5e-ccf11945e946",
+    "name": "Service Fabric Management Applications Cluster API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.\n\nContact Support:\n Name: Azure Service Fabric Documentation",
+      "type": "text/plain"
+    }
+  }
+}

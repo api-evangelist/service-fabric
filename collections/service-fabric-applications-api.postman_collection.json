@@ -1,0 +1,888 @@
+{
+  "item": [
+    {
+      "id": "78c7c8c7-8613-4090-8c2a-8cfdf74d51b1",
+      "name": "Applications",
+      "description": {
+        "content": "Application deployment and lifecycle",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9262c74d-faba-4928-8b27-55ead61b21be",
+          "name": "Get Application Info List",
+          "request": {
+            "name": "Get Application Info List",
+            "description": {
+              "content": "Returns the list of applications created in the Service Fabric cluster.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Applications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                },
+                {
+                  "disabled": false,
+                  "key": "ApplicationTypeName",
+                  "value": "<string>",
+                  "description": "Filter by application type name"
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "MaxResults",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b07230ac-7dc2-4294-abe9-6651be9e076c",
+              "name": "List of applications",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ApplicationTypeName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "MaxResults",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ContinuationToken\": \"string\",\n  \"Items\": [\n    {\n      \"Id\": \"string\",\n      \"Name\": \"string\",\n      \"TypeName\": \"string\",\n      \"TypeVersion\": \"string\",\n      \"Status\": \"Deleting\",\n      \"HealthState\": \"Invalid\"\n    },\n    {\n      \"Id\": \"string\",\n      \"Name\": \"string\",\n      \"TypeName\": \"string\",\n      \"TypeVersion\": \"string\",\n      \"Status\": \"Upgrading\",\n      \"HealthState\": \"Invalid\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13c9eb12-e30a-4f8e-903e-767432330eed",
+          "name": "Get Application Info",
+          "request": {
+            "name": "Get Application Info",
+            "description": {
+              "content": "Returns information about a specific Service Fabric application.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Applications",
+                ":applicationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "applicationId",
+                  "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                },
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "114fc1a9-a5a3-4df0-952b-2cf8f1c9bc4b",
+              "name": "Application information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Id\": \"string\",\n  \"Name\": \"string\",\n  \"TypeName\": \"string\",\n  \"TypeVersion\": \"string\",\n  \"Status\": \"Invalid\",\n  \"HealthState\": \"Ok\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3628a3c5-6f21-401d-9de8-41881bf56a15",
+              "name": "Application not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "801912b8-4b20-4bcc-9aca-a9d8f093a2bb",
+          "name": "Create Application",
+          "request": {
+            "name": "Create Application",
+            "description": {
+              "content": "Creates a Service Fabric application using the specified application description.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Applications",
+                "$",
+                "Create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"TypeName\": \"<string>\",\n  \"TypeVersion\": \"<string>\",\n  \"ParameterList\": [\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0de3cf57-dc3f-4718-aed2-13cce0b0dd48",
+              "name": "Application created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    "$",
+                    "Create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"TypeName\": \"<string>\",\n  \"TypeVersion\": \"<string>\",\n  \"ParameterList\": [\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4383f2f3-466d-444d-a2ca-720b759e80bd",
+              "name": "Invalid application description",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    "$",
+                    "Create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"TypeName\": \"<string>\",\n  \"TypeVersion\": \"<string>\",\n  \"ParameterList\": [\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "15692a9c-24da-48d5-a33f-2a1480ae3a90",
+              "name": "Application already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    "$",
+                    "Create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"TypeName\": \"<string>\",\n  \"TypeVersion\": \"<string>\",\n  \"ParameterList\": [\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    },\n    {\n      \"Key\": \"<string>\",\n      \"Value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "14672834-4fa7-456c-9785-76a957577505",
+          "name": "Delete Application",
+          "request": {
+            "name": "Delete Application",
+            "description": {
+              "content": "Deletes an existing Service Fabric application. An application must be created before it can be deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Applications",
+                ":applicationId",
+                "$",
+                "Delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                },
+                {
+                  "disabled": false,
+                  "key": "ForceRemove",
+                  "value": "<boolean>",
+                  "description": "Force remove the application without graceful shutdown"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "applicationId",
+                  "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                },
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19dd426b-e835-4844-8682-cf1c53e68c51",
+              "name": "Application deletion initiated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId",
+                    "$",
+                    "Delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ForceRemove",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ad2db5c-dc52-46eb-a31c-51fa0ff2e758",
+              "name": "Application not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId",
+                    "$",
+                    "Delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ForceRemove",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ebc34816-5777-4ed8-a01f-1924b6a1321c",
+          "name": "Get Application Health",
+          "request": {
+            "name": "Get Application Health",
+            "description": {
+              "content": "Returns the health of the specified Service Fabric application.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Applications",
+                ":applicationId",
+                "$",
+                "GetHealth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                },
+                {
+                  "disabled": false,
+                  "key": "ServicesHealthStateFilter",
+                  "value": "0"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "applicationId",
+                  "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                },
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6dca7504-6a86-4fd0-a200-00a726e7d621",
+              "name": "Application health state",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId",
+                    "$",
+                    "GetHealth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ServicesHealthStateFilter",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Name\": \"string\",\n  \"AggregatedHealthState\": \"Warning\",\n  \"ServiceHealthStates\": [\n    {\n      \"ServiceName\": \"string\",\n      \"AggregatedHealthState\": \"Ok\"\n    },\n    {\n      \"ServiceName\": \"string\",\n      \"AggregatedHealthState\": \"Error\"\n    }\n  ],\n  \"HealthEvents\": [\n    {\n      \"SourceId\": \"string\",\n      \"Property\": \"string\",\n      \"HealthState\": \"Unknown\",\n      \"Description\": \"string\",\n      \"TimeToLiveInMilliSeconds\": \"string\",\n      \"SequenceNumber\": \"string\",\n      \"IsExpired\": false,\n      \"SourceUtcTimestamp\": \"2020-03-10T15:17:57.505Z\",\n      \"LastModifiedUtcTimestamp\": \"2020-06-24T07:38:24.554Z\"\n    },\n    {\n      \"SourceId\": \"string\",\n      \"Property\": \"string\",\n      \"HealthState\": \"Invalid\",\n      \"Description\": \"string\",\n      \"TimeToLiveInMilliSeconds\": \"string\",\n      \"SequenceNumber\": \"string\",\n      \"IsExpired\": false,\n      \"SourceUtcTimestamp\": \"1962-12-05T04:59:39.478Z\",\n      \"LastModifiedUtcTimestamp\": \"2012-04-30T20:29:00.356Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33280661-6f6c-4d00-8a9a-58bc8536b087",
+              "name": "Application not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Applications",
+                    ":applicationId",
+                    "$",
+                    "GetHealth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ServicesHealthStateFilter",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "applicationId",
+                      "description": "(Required) Application ID (e.g., fabric:/MyApp)"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Service Fabric cluster endpoint (FQDN or IP)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost",
+      "key": "cluster_endpoint"
+    },
+    {
+      "type": "string",
+      "value": "http://{{cluster_endpoint}}:19080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0bfc0f45-8854-42b6-83a2-e6f093555d8f",
+    "name": "Service Fabric Cluster Management Applications API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.\n\nContact Support:\n Name: Azure Service Fabric Documentation",
+      "type": "text/plain"
+    }
+  }
+}

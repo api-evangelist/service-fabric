@@ -1,0 +1,381 @@
+{
+  "item": [
+    {
+      "id": "50872cf1-e6ec-4a50-8799-8b422bdba562",
+      "name": "Nodes",
+      "description": {
+        "content": "Cluster node management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ecf08d81-5cbb-4504-a833-dd642d00f0ff",
+          "name": "Get Node Info List",
+          "request": {
+            "name": "Get Node Info List",
+            "description": {
+              "content": "Returns the list of nodes in the Service Fabric cluster.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Nodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "ContinuationToken",
+                  "value": "<string>",
+                  "description": "Continuation token for pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "NodeStatusFilter",
+                  "value": "<string>",
+                  "description": "Filter nodes by node status"
+                },
+                {
+                  "disabled": false,
+                  "key": "MaxResults",
+                  "value": "<integer>",
+                  "description": "Maximum results to return"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8f69ba39-9142-47fb-8ba2-71b98a20708a",
+              "name": "List of cluster nodes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "NodeStatusFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "MaxResults",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ContinuationToken\": \"string\",\n  \"Items\": [\n    {\n      \"Name\": \"string\",\n      \"IpAddressOrFQDN\": \"string\",\n      \"Type\": \"string\",\n      \"NodeStatus\": \"Removed\",\n      \"HealthState\": \"Ok\",\n      \"IsSeedNode\": true,\n      \"UpgradeProgressDetails\": {},\n      \"NodeUpTimeInSeconds\": \"string\",\n      \"StartedTimestamp\": \"1996-03-31T14:29:49.342Z\"\n    },\n    {\n      \"Name\": \"string\",\n      \"IpAddressOrFQDN\": \"string\",\n      \"Type\": \"string\",\n      \"NodeStatus\": \"Down\",\n      \"HealthState\": \"Warning\",\n      \"IsSeedNode\": false,\n      \"UpgradeProgressDetails\": {},\n      \"NodeUpTimeInSeconds\": \"string\",\n      \"StartedTimestamp\": \"1952-01-06T12:42:42.268Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be799973-9df0-45f3-9f90-be9e4b467c2d",
+              "name": "Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Nodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    },
+                    {
+                      "key": "ContinuationToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "NodeStatusFilter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "MaxResults",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37aceb32-1d67-4f9d-b1a2-a800201c0800",
+          "name": "Get Node Info",
+          "request": {
+            "name": "Get Node Info",
+            "description": {
+              "content": "Returns information about a specific node in the Service Fabric cluster.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "Nodes",
+                ":nodeName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "api-version",
+                  "value": "9.1",
+                  "description": "(Required) Service Fabric API version"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "nodeName",
+                  "description": "(Required) Service Fabric node name"
+                },
+                {
+                  "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                  "type": "any",
+                  "value": "{{cluster_endpoint}}",
+                  "key": "cluster_endpoint"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c50e4f0c-a6ba-4fae-8d2d-a3a14c080662",
+              "name": "Node information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Nodes",
+                    ":nodeName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "nodeName",
+                      "description": "(Required) Service Fabric node name"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Name\": \"string\",\n  \"IpAddressOrFQDN\": \"string\",\n  \"Type\": \"string\",\n  \"NodeStatus\": \"Down\",\n  \"HealthState\": \"Warning\",\n  \"IsSeedNode\": false,\n  \"UpgradeProgressDetails\": {},\n  \"NodeUpTimeInSeconds\": \"string\",\n  \"StartedTimestamp\": \"2002-06-20T05:12:29.125Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0335bd36-7f62-4fe9-93f2-dae4490227e2",
+              "name": "Node not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "Nodes",
+                    ":nodeName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api-version",
+                      "value": "9.1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "nodeName",
+                      "description": "(Required) Service Fabric node name"
+                    },
+                    {
+                      "description": "Service Fabric cluster endpoint (FQDN or IP)",
+                      "type": "any",
+                      "value": "{{cluster_endpoint}}",
+                      "key": "cluster_endpoint"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Service Fabric cluster endpoint (FQDN or IP)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost",
+      "key": "cluster_endpoint"
+    },
+    {
+      "type": "string",
+      "value": "http://{{cluster_endpoint}}:19080",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e7d3750c-4428-42ae-b6f6-1ed4f2ef53aa",
+    "name": "Service Fabric Cluster Management Applications Nodes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.\n\nContact Support:\n Name: Azure Service Fabric Documentation",
+      "type": "text/plain"
+    }
+  }
+}

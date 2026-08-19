@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Service Fabric Cluster Management Applications Nodes API",
+    "version": "9.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Nodes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Node Info List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Nodes",
+            "params": [
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query",
+                "description": "Continuation token for pagination"
+              },
+              {
+                "name": "NodeStatusFilter",
+                "value": "",
+                "type": "query",
+                "description": "Filter nodes by node status"
+              },
+              {
+                "name": "MaxResults",
+                "value": "",
+                "type": "query",
+                "description": "Maximum results to return"
+              }
+            ]
+          },
+          "docs": "Returns the list of nodes in the Service Fabric cluster."
+        },
+        {
+          "info": {
+            "name": "Get Node Info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Nodes/:nodeName",
+            "params": [
+              {
+                "name": "nodeName",
+                "value": "",
+                "type": "path",
+                "description": "Service Fabric node name"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              }
+            ]
+          },
+          "docs": "Returns information about a specific node in the Service Fabric cluster."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

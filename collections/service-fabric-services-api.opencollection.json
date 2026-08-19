@@ -1,0 +1,54 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Service Fabric Cluster Management Applications Services API",
+    "version": "9.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Services",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Service Info List",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://{cluster_endpoint}:19080/Applications/:applicationId/$/GetServices",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID (e.g., fabric:/MyApp)"
+              },
+              {
+                "name": "api-version",
+                "value": "",
+                "type": "query",
+                "description": "Service Fabric API version"
+              },
+              {
+                "name": "ServiceTypeName",
+                "value": "",
+                "type": "query",
+                "description": "Filter by service type name"
+              },
+              {
+                "name": "ContinuationToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns services in the specified Service Fabric application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
