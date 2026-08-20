@@ -24,6 +24,14 @@ tags:
   - Distributed Systems
   - Microservices
   - Containers
+  - Cloud-Native
+  - Kubernetes
+  - Azure
+  - Open-Source
+tags_raw:
+  - Distributed Systems
+  - Microservices
+  - Containers
   - Cloud Native
   - Kubernetes
   - Azure
@@ -59,6 +67,8 @@ apis:
   humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
   baseURL: http://{cluster-endpoint}:19080
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
