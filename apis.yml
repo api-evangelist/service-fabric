@@ -146,6 +146,8 @@ apis:
   humanURL: https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-rest-based-model
   baseURL: http://{cluster-endpoint}:19080
   tags:
+  - Node
+  tags_raw:
   - Nodes
   properties:
   - type: OpenAPI
