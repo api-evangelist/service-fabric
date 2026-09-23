@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Service Fabric Management Applications Cluster API
+  title: Service Fabric Management Cluster API
   description: The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.
   version: '9.1'
   contact:
@@ -60,31 +60,6 @@ paths:
           description: Internal cluster error
 components:
   schemas:
-    ApplicationHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    NodeHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Node name
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
     ClusterHealth:
       type: object
       properties:
@@ -102,6 +77,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HealthEvent'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
+    ApplicationHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
     HealthEvent:
       type: object
       properties:

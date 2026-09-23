@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Service Fabric Cluster Management Applications Nodes API
+  title: Service Fabric Cluster Management Nodes API
   description: The Service Fabric REST API enables cluster management, application lifecycle, service management, and health monitoring for Azure Service Fabric clusters. The API is served by the HTTP gateway running on each cluster node.
   version: '9.1'
   contact:
@@ -105,6 +105,15 @@ components:
         default: '9.1'
       description: Service Fabric API version
   schemas:
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
     PagedNodeInfoList:
       type: object
       properties:
@@ -151,12 +160,3 @@ components:
         StartedTimestamp:
           type: string
           format: date-time
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
