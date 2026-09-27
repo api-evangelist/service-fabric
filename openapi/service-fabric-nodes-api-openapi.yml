@@ -88,43 +88,7 @@ paths:
         '404':
           description: Node not found
 components:
-  parameters:
-    NodeName:
-      name: nodeName
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Service Fabric node name
-    ApiVersion:
-      name: api-version
-      in: query
-      required: true
-      schema:
-        type: string
-        default: '9.1'
-      description: Service Fabric API version
   schemas:
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
-    PagedNodeInfoList:
-      type: object
-      properties:
-        ContinuationToken:
-          type: string
-          nullable: true
-          description: Token for fetching the next page of results
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeInfo'
     NodeInfo:
       type: object
       properties:
@@ -160,3 +124,39 @@ components:
         StartedTimestamp:
           type: string
           format: date-time
+    PagedNodeInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+          description: Token for fetching the next page of results
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeInfo'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
+  parameters:
+    ApiVersion:
+      name: api-version
+      in: query
+      required: true
+      schema:
+        type: string
+        default: '9.1'
+      description: Service Fabric API version
+    NodeName:
+      name: nodeName
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Service Fabric node name

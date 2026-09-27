@@ -8,15 +8,21 @@ description: >-
   services. The Service Fabric REST API enables cluster management, application lifecycle, and service configuration.
 type: Index
 deliveryModel:
-  model: unknown
-  open_source: false
+  model: self-hosted
+  license: MIT
+  license_evidence:
+    repo: microsoft/service-fabric
+    spdx: MIT
+    stars: 3065
+  open_source: true
   commercial: false
   callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  label: Self-hosted open source · you run it yourself
+  confidence: medium
   source:
   - openapi
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 accessModel:
   pricing: freemium
@@ -38,7 +44,7 @@ tags:
   - Cloud-Native
   - Kubernetes
   - Azure
-  - Open-Source
+  - Open Source
 tags_raw:
   - Distributed Systems
   - Microservices
@@ -47,6 +53,7 @@ tags_raw:
   - Kubernetes
   - Azure
   - Open Source
+  - Open-Source
 url: https://raw.githubusercontent.com/api-evangelist/service-fabric/refs/heads/main/apis.yml
 created: '2026-05-02'
 modified: '2026-05-19'

@@ -60,48 +60,6 @@ paths:
           description: Internal cluster error
 components:
   schemas:
-    ClusterHealth:
-      type: object
-      properties:
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        NodeHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeHealthState'
-        ApplicationHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationHealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
-    ApplicationHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    NodeHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Node name
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
     HealthEvent:
       type: object
       properties:
@@ -128,3 +86,45 @@ components:
         LastModifiedUtcTimestamp:
           type: string
           format: date-time
+    ClusterHealth:
+      type: object
+      properties:
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        NodeHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeHealthState'
+        ApplicationHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationHealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
+    ApplicationHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'

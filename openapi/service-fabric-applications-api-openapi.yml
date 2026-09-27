@@ -135,58 +135,7 @@ paths:
         '404':
           description: Application not found
 components:
-  parameters:
-    ApiVersion:
-      name: api-version
-      in: query
-      required: true
-      schema:
-        type: string
-        default: '9.1'
-      description: Service Fabric API version
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Application ID (e.g., fabric:/MyApp)
   schemas:
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
-    ApplicationDescription:
-      type: object
-      required:
-      - Name
-      - TypeName
-      - TypeVersion
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        TypeName:
-          type: string
-          description: Registered application type name
-        TypeVersion:
-          type: string
-          description: Application type version
-        ParameterList:
-          type: array
-          items:
-            type: object
-            properties:
-              Key:
-                type: string
-              Value:
-                type: string
-          description: Override parameters for the application manifest
     HealthEvent:
       type: object
       properties:
@@ -213,6 +162,25 @@ components:
         LastModifiedUtcTimestamp:
           type: string
           format: date-time
+    PagedApplicationInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationInfo'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
     ApplicationHealth:
       type: object
       properties:
@@ -259,13 +227,45 @@ components:
           - Failed
         HealthState:
           $ref: '#/components/schemas/HealthState'
-    PagedApplicationInfoList:
+    ApplicationDescription:
       type: object
+      required:
+      - Name
+      - TypeName
+      - TypeVersion
       properties:
-        ContinuationToken:
+        Name:
           type: string
-          nullable: true
-        Items:
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Registered application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        ParameterList:
           type: array
           items:
-            $ref: '#/components/schemas/ApplicationInfo'
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+          description: Override parameters for the application manifest
+  parameters:
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
+    ApiVersion:
+      name: api-version
+      in: query
+      required: true
+      schema:
+        type: string
+        default: '9.1'
+      description: Service Fabric API version
