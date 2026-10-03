@@ -84,66 +84,6 @@ paths:
           description: Application not found
 components:
   schemas:
-    HealthEvent:
-      type: object
-      properties:
-        SourceId:
-          type: string
-          description: Source reporting the health event
-        Property:
-          type: string
-          description: Property being reported on
-        HealthState:
-          $ref: '#/components/schemas/HealthState'
-        Description:
-          type: string
-        TimeToLiveInMilliSeconds:
-          type: string
-          description: Duration in ISO 8601 format
-        SequenceNumber:
-          type: string
-        IsExpired:
-          type: boolean
-        SourceUtcTimestamp:
-          type: string
-          format: date-time
-        LastModifiedUtcTimestamp:
-          type: string
-          format: date-time
-    ClusterHealth:
-      type: object
-      properties:
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        NodeHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeHealthState'
-        ApplicationHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationHealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
-    NodeHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Node name
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
     ApplicationHealth:
       type: object
       properties:
@@ -172,6 +112,66 @@ components:
           description: Application URI (e.g., fabric:/MyApp)
         AggregatedHealthState:
           $ref: '#/components/schemas/HealthState'
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+    ClusterHealth:
+      type: object
+      properties:
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        NodeHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeHealthState'
+        ApplicationHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationHealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+    HealthEvent:
+      type: object
+      properties:
+        SourceId:
+          type: string
+          description: Source reporting the health event
+        Property:
+          type: string
+          description: Property being reported on
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        Description:
+          type: string
+        TimeToLiveInMilliSeconds:
+          type: string
+          description: Duration in ISO 8601 format
+        SequenceNumber:
+          type: string
+        IsExpired:
+          type: boolean
+        SourceUtcTimestamp:
+          type: string
+          format: date-time
+        LastModifiedUtcTimestamp:
+          type: string
+          format: date-time
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
   parameters:
     ApiVersion:
       name: api-version

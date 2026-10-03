@@ -50,25 +50,6 @@ paths:
           description: Application not found
 components:
   schemas:
-    PagedServiceInfoList:
-      type: object
-      properties:
-        ContinuationToken:
-          type: string
-          nullable: true
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceInfo'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
     ServiceInfo:
       type: object
       properties:
@@ -99,14 +80,26 @@ components:
           - Failed
         IsServiceGroup:
           type: boolean
+    PagedServiceInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceInfo'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
   parameters:
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Application ID (e.g., fabric:/MyApp)
     ApiVersion:
       name: api-version
       in: query
@@ -115,3 +108,10 @@ components:
         type: string
         default: '9.1'
       description: Service Fabric API version
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)

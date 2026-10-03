@@ -136,51 +136,6 @@ paths:
           description: Application not found
 components:
   schemas:
-    HealthEvent:
-      type: object
-      properties:
-        SourceId:
-          type: string
-          description: Source reporting the health event
-        Property:
-          type: string
-          description: Property being reported on
-        HealthState:
-          $ref: '#/components/schemas/HealthState'
-        Description:
-          type: string
-        TimeToLiveInMilliSeconds:
-          type: string
-          description: Duration in ISO 8601 format
-        SequenceNumber:
-          type: string
-        IsExpired:
-          type: boolean
-        SourceUtcTimestamp:
-          type: string
-          format: date-time
-        LastModifiedUtcTimestamp:
-          type: string
-          format: date-time
-    PagedApplicationInfoList:
-      type: object
-      properties:
-        ContinuationToken:
-          type: string
-          nullable: true
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationInfo'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
     ApplicationHealth:
       type: object
       properties:
@@ -227,6 +182,16 @@ components:
           - Failed
         HealthState:
           $ref: '#/components/schemas/HealthState'
+    PagedApplicationInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationInfo'
     ApplicationDescription:
       type: object
       required:
@@ -253,14 +218,42 @@ components:
               Value:
                 type: string
           description: Override parameters for the application manifest
+    HealthEvent:
+      type: object
+      properties:
+        SourceId:
+          type: string
+          description: Source reporting the health event
+        Property:
+          type: string
+          description: Property being reported on
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+        Description:
+          type: string
+        TimeToLiveInMilliSeconds:
+          type: string
+          description: Duration in ISO 8601 format
+        SequenceNumber:
+          type: string
+        IsExpired:
+          type: boolean
+        SourceUtcTimestamp:
+          type: string
+          format: date-time
+        LastModifiedUtcTimestamp:
+          type: string
+          format: date-time
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
   parameters:
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Application ID (e.g., fabric:/MyApp)
     ApiVersion:
       name: api-version
       in: query
@@ -269,3 +262,10 @@ components:
         type: string
         default: '9.1'
       description: Service Fabric API version
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
