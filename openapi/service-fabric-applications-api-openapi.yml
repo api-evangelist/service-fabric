@@ -136,88 +136,6 @@ paths:
           description: Application not found
 components:
   schemas:
-    ApplicationHealth:
-      type: object
-      properties:
-        Name:
-          type: string
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        ServiceHealthStates:
-          type: array
-          items:
-            type: object
-            properties:
-              ServiceName:
-                type: string
-              AggregatedHealthState:
-                $ref: '#/components/schemas/HealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
-    ApplicationInfo:
-      type: object
-      properties:
-        Id:
-          type: string
-          description: Application ID
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        TypeName:
-          type: string
-          description: Application type name
-        TypeVersion:
-          type: string
-          description: Application type version
-        Status:
-          type: string
-          enum:
-          - Invalid
-          - Ready
-          - Upgrading
-          - Creating
-          - Deleting
-          - Failed
-        HealthState:
-          $ref: '#/components/schemas/HealthState'
-    PagedApplicationInfoList:
-      type: object
-      properties:
-        ContinuationToken:
-          type: string
-          nullable: true
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationInfo'
-    ApplicationDescription:
-      type: object
-      required:
-      - Name
-      - TypeName
-      - TypeVersion
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        TypeName:
-          type: string
-          description: Registered application type name
-        TypeVersion:
-          type: string
-          description: Application type version
-        ParameterList:
-          type: array
-          items:
-            type: object
-            properties:
-              Key:
-                type: string
-              Value:
-                type: string
-          description: Override parameters for the application manifest
     HealthEvent:
       type: object
       properties:
@@ -253,6 +171,88 @@ components:
       - Error
       - Unknown
       description: Service Fabric health state
+    ApplicationInfo:
+      type: object
+      properties:
+        Id:
+          type: string
+          description: Application ID
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        Status:
+          type: string
+          enum:
+          - Invalid
+          - Ready
+          - Upgrading
+          - Creating
+          - Deleting
+          - Failed
+        HealthState:
+          $ref: '#/components/schemas/HealthState'
+    ApplicationDescription:
+      type: object
+      required:
+      - Name
+      - TypeName
+      - TypeVersion
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Registered application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        ParameterList:
+          type: array
+          items:
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+          description: Override parameters for the application manifest
+    ApplicationHealth:
+      type: object
+      properties:
+        Name:
+          type: string
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceHealthStates:
+          type: array
+          items:
+            type: object
+            properties:
+              ServiceName:
+                type: string
+              AggregatedHealthState:
+                $ref: '#/components/schemas/HealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+    PagedApplicationInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationInfo'
   parameters:
     ApiVersion:
       name: api-version

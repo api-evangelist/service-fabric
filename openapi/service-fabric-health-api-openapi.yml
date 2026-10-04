@@ -84,59 +84,6 @@ paths:
           description: Application not found
 components:
   schemas:
-    ApplicationHealth:
-      type: object
-      properties:
-        Name:
-          type: string
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        ServiceHealthStates:
-          type: array
-          items:
-            type: object
-            properties:
-              ServiceName:
-                type: string
-              AggregatedHealthState:
-                $ref: '#/components/schemas/HealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
-    ApplicationHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    NodeHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Node name
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    ClusterHealth:
-      type: object
-      properties:
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        NodeHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeHealthState'
-        ApplicationHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationHealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
     HealthEvent:
       type: object
       properties:
@@ -163,6 +110,14 @@ components:
         LastModifiedUtcTimestamp:
           type: string
           format: date-time
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
     HealthState:
       type: string
       enum:
@@ -172,6 +127,51 @@ components:
       - Error
       - Unknown
       description: Service Fabric health state
+    ApplicationHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+    ApplicationHealth:
+      type: object
+      properties:
+        Name:
+          type: string
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceHealthStates:
+          type: array
+          items:
+            type: object
+            properties:
+              ServiceName:
+                type: string
+              AggregatedHealthState:
+                $ref: '#/components/schemas/HealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
+    ClusterHealth:
+      type: object
+      properties:
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        NodeHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeHealthState'
+        ApplicationHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationHealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
   parameters:
     ApiVersion:
       name: api-version
