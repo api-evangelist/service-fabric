@@ -194,6 +194,9 @@ apis:
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/service-fabric-capability-edges.yml
+    name: Service Fabric Business Capability Map
   - type: AgenticAccess
     url: agentic-access/service-fabric-agentic-access.yml
   - type: VulnerabilityDisclosure
