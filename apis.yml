@@ -194,6 +194,12 @@ apis:
   - type: SpectralRules
     url: rules/service-fabric-rules.yml
 common:
+  - type: Plans
+    url: plans/service-fabric-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/service-fabric-rate-limits.yml
+  - type: FinOps
+    url: finops/service-fabric-finops.yml
   - type: CapabilityMap
     url: capabilities/service-fabric-capability-edges.yml
     name: Service Fabric Business Capability Map
