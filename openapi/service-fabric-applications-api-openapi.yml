@@ -162,6 +162,62 @@ components:
         LastModifiedUtcTimestamp:
           type: string
           format: date-time
+    ApplicationDescription:
+      type: object
+      required:
+      - Name
+      - TypeName
+      - TypeVersion
+      properties:
+        Name:
+          type: string
+          description: Application URI (e.g., fabric:/MyApp)
+        TypeName:
+          type: string
+          description: Registered application type name
+        TypeVersion:
+          type: string
+          description: Application type version
+        ParameterList:
+          type: array
+          items:
+            type: object
+            properties:
+              Key:
+                type: string
+              Value:
+                type: string
+          description: Override parameters for the application manifest
+    PagedApplicationInfoList:
+      type: object
+      properties:
+        ContinuationToken:
+          type: string
+          nullable: true
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationInfo'
+    ApplicationHealth:
+      type: object
+      properties:
+        Name:
+          type: string
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        ServiceHealthStates:
+          type: array
+          items:
+            type: object
+            properties:
+              ServiceName:
+                type: string
+              AggregatedHealthState:
+                $ref: '#/components/schemas/HealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
     HealthState:
       type: string
       enum:
@@ -197,63 +253,14 @@ components:
           - Failed
         HealthState:
           $ref: '#/components/schemas/HealthState'
-    ApplicationDescription:
-      type: object
-      required:
-      - Name
-      - TypeName
-      - TypeVersion
-      properties:
-        Name:
-          type: string
-          description: Application URI (e.g., fabric:/MyApp)
-        TypeName:
-          type: string
-          description: Registered application type name
-        TypeVersion:
-          type: string
-          description: Application type version
-        ParameterList:
-          type: array
-          items:
-            type: object
-            properties:
-              Key:
-                type: string
-              Value:
-                type: string
-          description: Override parameters for the application manifest
-    ApplicationHealth:
-      type: object
-      properties:
-        Name:
-          type: string
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        ServiceHealthStates:
-          type: array
-          items:
-            type: object
-            properties:
-              ServiceName:
-                type: string
-              AggregatedHealthState:
-                $ref: '#/components/schemas/HealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
-    PagedApplicationInfoList:
-      type: object
-      properties:
-        ContinuationToken:
-          type: string
-          nullable: true
-        Items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationInfo'
   parameters:
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
     ApiVersion:
       name: api-version
       in: query
@@ -262,10 +269,3 @@ components:
         type: string
         default: '9.1'
       description: Service Fabric API version
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Application ID (e.g., fabric:/MyApp)

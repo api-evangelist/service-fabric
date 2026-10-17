@@ -145,6 +145,13 @@ components:
           items:
             $ref: '#/components/schemas/NodeInfo'
   parameters:
+    NodeName:
+      name: nodeName
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Service Fabric node name
     ApiVersion:
       name: api-version
       in: query
@@ -153,10 +160,3 @@ components:
         type: string
         default: '9.1'
       description: Service Fabric API version
-    NodeName:
-      name: nodeName
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Service Fabric node name

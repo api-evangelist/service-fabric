@@ -84,6 +84,31 @@ paths:
           description: Application not found
 components:
   schemas:
+    NodeHealthState:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Node name
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+    ClusterHealth:
+      type: object
+      properties:
+        AggregatedHealthState:
+          $ref: '#/components/schemas/HealthState'
+        NodeHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeHealthState'
+        ApplicationHealthStates:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationHealthState'
+        HealthEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/HealthEvent'
     HealthEvent:
       type: object
       properties:
@@ -110,23 +135,6 @@ components:
         LastModifiedUtcTimestamp:
           type: string
           format: date-time
-    NodeHealthState:
-      type: object
-      properties:
-        Name:
-          type: string
-          description: Node name
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-    HealthState:
-      type: string
-      enum:
-      - Invalid
-      - Ok
-      - Warning
-      - Error
-      - Unknown
-      description: Service Fabric health state
     ApplicationHealthState:
       type: object
       properties:
@@ -155,24 +163,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HealthEvent'
-    ClusterHealth:
-      type: object
-      properties:
-        AggregatedHealthState:
-          $ref: '#/components/schemas/HealthState'
-        NodeHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/NodeHealthState'
-        ApplicationHealthStates:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationHealthState'
-        HealthEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/HealthEvent'
+    HealthState:
+      type: string
+      enum:
+      - Invalid
+      - Ok
+      - Warning
+      - Error
+      - Unknown
+      description: Service Fabric health state
   parameters:
+    ApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Application ID (e.g., fabric:/MyApp)
     ApiVersion:
       name: api-version
       in: query
@@ -181,10 +188,3 @@ components:
         type: string
         default: '9.1'
       description: Service Fabric API version
-    ApplicationId:
-      name: applicationId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Application ID (e.g., fabric:/MyApp)
